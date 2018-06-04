@@ -15,21 +15,29 @@ public class ServicioBootstrap {
         Server.shutdownTcpServer("tcp://localhost:9092", "", true, true);
     }
 
-    public static void crearTablas() throws SQLException {
+    public static void ejecutarSQL(String sql) throws SQLException {
         Connection conexion = ServicioBaseDatos.getInstancia().getConexion();
 
         Statement statement = conexion.createStatement();
 
-        String sqlEtiqueta =
-            "CREATE TABLE IF NOT EXISTS etiqueta\n" +
-            "(\n" +
-            "  id BIGINT PRIMARY KEY NOT NULL,\n" +
-            "  etiqueta VARCHAR(100) NOT NULL,\n" +
-            ");";
-
-        statement.execute(sqlEtiqueta);
+        statement.execute(sql);
         statement.close();
 
         conexion.close();
+    }
+
+    public static void crearTablas() throws SQLException {
+        ejecutarSQL(
+            "CREATE TABLE IF NOT EXISTS etiquetas\n" +
+            "(\n" +
+            "id BIGINT PRIMARY KEY NOT NULL,\n" +
+            "etiqueta VARCHAR(100) NOT NULL,\n" +
+            ");");
+
+        ejecutarSQL(
+            "CREATE TABLE IF NOT EXISTS usuarios\n" +
+            "(\n" +
+            "id BIGINT PRIMARY KEY NOT NULL,\n" +
+            "");
     }
 }
