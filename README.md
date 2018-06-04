@@ -39,10 +39,10 @@ public class Usuario {
 }
 
 public class Comentario { 
-  long id;
-  String comentario;
-  Usuario autor;
-  Articulo articulo;
+  private long id;
+  private String comentario;
+  private Usuario autor;
+  private Articulo articulo;
 }
 
 public class Articulo { 
