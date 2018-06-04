@@ -43,5 +43,27 @@ public class ServicioBootstrap {
                     "administrator BOOLEAN NOT NULL, \n" +
                     "autor BOOLEAN NOT NULL" +
             ");");
+
+        ejecutarSQL(
+                "CREATE TABLE IF NOT EXISTS articulos\n" +
+                        "(\n" +
+                        "id BIGINT PRIMARY KEY NOT NULL,\n" +
+                        "titulo VARCHAR(100) UNIQUE NOT NULL, \n" +
+                        "cuerpo VARCHAR(10000) NOT NULL, \n" +
+                        "usuarioID BIGINT, \n" +
+                        "fecha DATE NOT NULL, \n" +
+                        "FOREIGN KEY(usuarioID) REFERENCES usuarios(id)" +
+                        ");");
+
+        ejecutarSQL(
+                "CREATE TABLE IF NOT EXISTS comentarios\n" +
+                        "(\n" +
+                        "id BIGINT PRIMARY KEY NOT NULL,\n" +
+                        "comentario VARCHAR(1000) UNIQUE NOT NULL, \n" +
+                        "autor VARCHAR(40) NOT NULL, \n" +
+                        "articuloID BIGINT, \n" +
+                        "FOREIGN KEY(articuloID) REFERENCES articulos(id)" +
+                        ");");
+
     }
 }
