@@ -1,3 +1,8 @@
+import Servicios.ServicioBaseDatos;
+import Servicios.ServicioBootstrap;
+
+import java.sql.SQLException;
+
 /*********************************************************
  *  Práctica #3 - HTTP - JDBC (Creación de un blog)       *
  *  Realizada por:                                        *
@@ -7,4 +12,18 @@
  *********************************************************/
 
 public class Main {
+    public static void main(String[] args) {
+        try {
+            //Iniciando el servicio
+            ServicioBootstrap.startDb();
+
+            //Prueba de Conexión.
+            ServicioBaseDatos.getInstancia().testConexion();
+
+            //Creando tablas de la Base de datos
+            ServicioBootstrap.crearTablas();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
