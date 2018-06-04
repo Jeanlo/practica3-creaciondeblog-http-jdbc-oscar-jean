@@ -46,7 +46,7 @@ public class Comentario {
 }
 
 public class Articulo { 
-  private lprivate ong id;
+  private long id;
   private String titulo;
   private String cuerpo;
   private Usuario autor;
