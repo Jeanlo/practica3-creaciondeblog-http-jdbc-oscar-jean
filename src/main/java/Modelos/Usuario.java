@@ -12,14 +12,14 @@ public class Usuario {
     private long id;
     private String username;
     private String password;
-    private boolean adminstrator;
+    private boolean administrator;
     private boolean autor;
 
     public Usuario(long id, String username, String password, boolean adminstrator, boolean autor) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.adminstrator = adminstrator;
+        this.administrator = adminstrator;
         this.autor = autor;
     }
 
@@ -48,11 +48,11 @@ public class Usuario {
     }
 
     public boolean isAdminstrator() {
-        return adminstrator;
+        return administrator;
     }
 
     public void setAdminstrator(boolean adminstrator) {
-        this.adminstrator = adminstrator;
+        this.administrator = adminstrator;
     }
 
     public boolean isAutor() {

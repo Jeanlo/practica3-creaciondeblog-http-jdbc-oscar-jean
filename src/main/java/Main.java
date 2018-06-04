@@ -8,6 +8,7 @@
 
 import Servicios.ServicioBaseDatos;
 import Servicios.ServicioBootstrap;
+import Servicios.ServicioUsuario;
 
 import java.sql.SQLException;
 
@@ -22,6 +23,10 @@ public class Main {
 
             //Creando tablas de la Base de datos
             ServicioBootstrap.crearTablas();
+
+            // Crear usuario por defecto
+            ServicioUsuario serviciouser = new ServicioUsuario();
+            serviciouser.crearUsuarioPorDefecto();
 
             //Deteniendo el servicio de Base de datos
             ServicioBootstrap.stopDb();

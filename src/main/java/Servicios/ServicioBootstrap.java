@@ -38,6 +38,10 @@ public class ServicioBootstrap {
             "CREATE TABLE IF NOT EXISTS usuarios\n" +
             "(\n" +
             "id BIGINT PRIMARY KEY NOT NULL,\n" +
-            "");
+             "username VARCHAR(40) UNIQUE NOT NULL, \n" +
+                    "password VARCHAR(40) NOT NULL, \n" +
+                    "administrator BOOLEAN NOT NULL, \n" +
+                    "autor BOOLEAN NOT NULL" +
+            ");");
     }
 }
