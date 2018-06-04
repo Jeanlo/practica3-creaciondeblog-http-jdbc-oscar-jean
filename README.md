@@ -25,34 +25,34 @@ Crear una aplicación web utilizando SparkJava que utilice persistencia en la ba
 ## Modelo de datos
 Para esta aplicación es requerido utilizar una colección estática de Estudiantes, para lo cual es necesaria la construcción de la clase Estudiante como parte del modelo de datos, y aquí se muestra su estructura:
 ```java
-class Etiqueta { 
-  long id;
-  String etiqueta;
+public class Etiqueta { 
+  private long id;
+  private String etiqueta;
 }
 
-class Usuario { 
-  long id;
-  String username;
-  String password;
-  boolean adminstrator;
-  boolean autor;
+public class Usuario { 
+  private long id;
+  private String username;
+  private String password;
+  private boolean adminstrator;
+  private boolean autor;
 }
 
-class Comentario { 
+public class Comentario { 
   long id;
   String comentario;
   Usuario autor;
   Articulo articulo;
 }
 
-class Articulo { 
-  long id;
-  String titulo;
-  String cuerpo;
-  Usuario autor;
-  Date fecha;
-  ArrayList<Comentario> listaComentarios;
-  ArrayList<Etiqueta> listaEtiquetas;
+public class Articulo { 
+  private lprivate ong id;
+  private String titulo;
+  private String cuerpo;
+  private Usuario autor;
+  private Date fecha;
+  private ArrayList<Comentario> listaComentarios;
+  private ArrayList<Etiqueta> listaEtiquetas;
 }
 ```
 
