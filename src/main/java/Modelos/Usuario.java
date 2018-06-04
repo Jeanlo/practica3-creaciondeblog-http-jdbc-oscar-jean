@@ -9,11 +9,19 @@
 package Modelos;
 
 public class Usuario {
-    long id;
-    String username;
-    String password;
-    boolean adminstrator;
-    boolean autor;
+    private long id;
+    private String username;
+    private String password;
+    private boolean adminstrator;
+    private boolean autor;
+
+    public Usuario(long id, String username, String password, boolean adminstrator, boolean autor) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.adminstrator = adminstrator;
+        this.autor = autor;
+    }
 
     public long getId() {
         return id;

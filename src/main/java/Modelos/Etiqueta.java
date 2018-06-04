@@ -4,14 +4,18 @@
  *      - Oscar Dionisio Núñez Siri - 2014-0056           *
  *      - Jean Louis Tejeda - 2013-1459                   *
  *  Materia: Programación Web - ISC-415-T-001             *
- *  Clase: Etiqueta
  *********************************************************/
 
 package Modelos;
 
 public class Etiqueta {
-    long id;
-    String etiqueta;
+    private long id;
+    private String etiqueta;
+
+    public Etiqueta(long id, String etiqueta) {
+        this.id = id;
+        this.etiqueta = etiqueta;
+    }
 
     public long getId() {
         return id;
