@@ -1,8 +1,11 @@
+import Modelos.Articulo;
+import Servicios.ServicioArticulo;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +32,9 @@ public class Enrutamiento {
             StringWriter writer = new StringWriter();
             Map<String, Object> atributos = new HashMap<>();
             Template template = configuration.getTemplate("plantillas/index.ftl");
-
+            ArrayList<Articulo> articulos = new ArrayList<>();
+            articulos = ServicioArticulo.listarArticulos();
+            atributos.put("articulos", articulos);
             template.process(null, writer);
 
             return writer;
