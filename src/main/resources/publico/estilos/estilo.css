@@ -17,6 +17,10 @@ body {
     border-radius: 0 !important;
 }
 
+.cuerpo-corto::after {
+    content: "...";
+}
+
 .container-buscar {
     background: #F2F2F2;
     border-radius: 10px;

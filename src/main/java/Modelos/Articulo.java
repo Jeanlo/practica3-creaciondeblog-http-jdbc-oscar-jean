@@ -66,6 +66,19 @@ public class Articulo {
         this.listaEtiquetas = listaEtiquetas;
     }
 
+    public String getCuerpoCorto() {
+        String cuerpoCorto = "";
+
+        for(int i = 0; i < 70; i++) {
+            if(i > this.getCuerpo().length())
+                break;
+
+            cuerpoCorto += this.getCuerpo().charAt(i);
+        }
+
+        return cuerpoCorto;
+    }
+
     private ArrayList<Comentario> listaComentarios;
     private ArrayList<Etiqueta> listaEtiquetas;
 
