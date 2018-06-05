@@ -4,6 +4,14 @@ body {
     margin: 0;
 }
 
+.navbar {
+    box-shadow: 3px 3px 3px rgba(34, 34, 34, 0.12);
+}
+
+.btn {
+    border-radius: 0 !important;
+}
+
 .card {
     border: 3px black solid !important;
     border-radius: 0 !important;
@@ -13,29 +21,30 @@ body {
     color: crimson;
 }
 
-#buscar {
-    background: #D8D8D8;
+.container-buscar {
+    background: #F2F2F2;
+    border-radius: 10px;
+    box-shadow: 3px 3px 3px rgba(34, 34, 34, 0.12);
+    color: #999;
+    width: 40rem;
+}
+
+.container-buscar > input {
+    background: transparent;
     border: 0;
-    border-radius: 10px;
-    box-shadow: 3px 3px 3px #222;
-    padding: 10px;
-    margin-right: 20px;
-    width: 500px;
+    width: 95%;
 }
 
-.botonCrear {
-    border-radius: 10px !important;
+.login {
+    box-shadow: -3px 3px 3px rgba(34, 34, 34, 0.12);
 }
 
-.loginMAE {
-    background: #FFFFFF;
-    padding: 30px;
-    margin-left: 500px;
-    margin-top: 200px;
-    border-radius: 10px;
+.panel {
+    border: 3px solid rgb(0, 0, 0) !important;
+    text-align: center;
 }
 
-.botonSalir {
-    padding: 10px;
-    margin-left: 250px;
+.upbottom-letters {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
 }

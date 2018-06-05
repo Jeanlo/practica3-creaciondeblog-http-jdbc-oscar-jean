@@ -1,26 +1,52 @@
 <#import "/plantillas/base.ftl" as base>
 <@base.pagina>
-   <div class="wrapper loginMAE">
-       <form class="form-signin" method="post" action="/loginDatosEntrados">
-           <h2 class="text-center">Ingresa a la página MAE: </h2>
-           <div style="clear: right">
-               <label for="user"><strong>Nombre de usuario:</strong> </label>
-               <br>
-               <input id = "user" type="text" class="form-control" name="username" placeholder="Ingresa tu usuario" required="" autofocus="" />
-           </div>
-           <div style="clear: right">
-               <br>
-               <label for="password"><strong>Contraseña: </strong></label>
-               <br>
-               <input id = password" type="password" class="form-control" name="password" placeholder="Ingresa tu contraseña" required=""/>
-           </div>
-           <br>
-           <button class="btn btn-lg btn-primary btn-block" type="submit" action="/loginDatosEntrados">Ingresa a MAE</button>
-           <br>
-       </form>
-       <h4>No te has registrado? - Clickea el botón <strong>"Registrar"</strong></h4>
-       <br>
-       <a href="/registro"><button class="btn btn-lg btn-danger btn-block" type="submit">Registrar</button></a>
-   </div>
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+<div class="col-lg-8 col-md-10 col-sm-12 mx-auto">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-10 mt-2 bg-light px-4 rounded-0 login">
+            <div class="row">
+                <form class="col-11 py-5" method="post" action="/loginDatosEntrados">
+                    <div class="panel px-2 py-3 bg-white">
+                        <label for="user"><strong>Nombre de usuario</strong> </label>
+                        <input type="text" class="form-control rounded-0" name="username" placeholder="usuario"
+                               required=""
+                               autofocus=""/>
+                        <br>
+                        <label for="password"><strong>Contraseña</strong></label>
+                        <input type="password" class="form-control rounded-0" name="password" placeholder="contraseña"
+                               required=""/>
+                    </div>
+                    <button class="btn btn-outline-dark btn-block my-3" type="submit">
+                        ACCEDER
+                    </button>
+                </form>
+                <h5 class="col-1 pt-3">
+                    <strong class="upbottom-letters">LOGIN ログイン</strong>
+                </h5>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-10 mt-2 bg-light px-4 rounded-0 login">
+            <div class="row">
+                <form class="col-11 py-5" method="post" action="/registro">
+                    <div class="panel px-2 py-3 bg-white">
+                        <label for="user"><strong>Nombre de usuario</strong> </label>
+                        <input type="text" class="form-control rounded-0" name="username" placeholder="usuario"
+                               required=""
+                               autofocus=""/>
+                        <br>
+                        <label for="password"><strong>Contraseña</strong></label>
+                        <input type="password" class="form-control rounded-0" name="password" placeholder="contraseña"
+                               required=""/>
+                    </div>
+                    <button class="btn btn-outline-dark btn-block my-3" type="submit">
+                        REGISTRARSE
+                    </button>
+                </form>
+                <h5 class="col-1 pt-3">
+                    <strong class="upbottom-letters">REGISTRO レジスター</strong>
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
 </@base.pagina>

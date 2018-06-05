@@ -21,32 +21,36 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="container-fluid">
+<div class="container-fluid p-0">
     <div class="row">
         <div class="col">
             <div class="row">
                 <div class="col-12">
-                    <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
-                        <a class="navbar-brand" href="/"><img src="/imagenes/logo.png" width="200"></a>
-                        <input type="text" name="buscar" id="buscar" placeholder="Buscar por etiqueta">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-white p-0">
+                        <a class="navbar-brand" href="/"><img src="/imagenes/logo.png" width="180"></a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item">
-                                    <a class="btn btn-success btn-lg botonCrear" href="/articulos/crear">
+                                    <a class="btn btn-link text-dark" href="/articulos/crear">
                                         <i class="fas fa-newspaper"></i> Crear artículo
-                                        <a class="btn btn-primary btn-lg botonSalir" href="/salir">
-                                            <i class="fas fa-sign-out-alt"></i> Salir
                                     </a>
                                 </li>
+                                <li class="nav-item ml-2 container-buscar py-2 px-3">
+                                    <i class="fas fa-hashtag"></i>
+                                    <input type="text" name="buscar" placeholder="buscar por etiqueta">
+                                </li>
                             </ul>
+                            <a class="btn btn-dark mr-2" href="/salir">
+                                <i class="fas fa-sign-out-alt"></i> Salir
+                            </a>
                         </div>
                     </nav>
                 </div>
             </div>
-            <div class="row p-1">
+            <div class="row">
                 <#nested>
             </div>
         </div>
