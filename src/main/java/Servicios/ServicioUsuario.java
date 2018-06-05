@@ -7,23 +7,16 @@ public class ServicioUsuario {
         boolean creadoCorrectamente = false;
         Connection conexion = ServicioBaseDatos.getInstancia().getConexion();
 
-        // Variables del usuario por defecto
-        Integer id = 1;
-        String username = "admin";
-        String password = "1234";
-        Boolean administrator = true;
-        Boolean autor = true;
         try {
-            String usuarioDefecto = "insert into usuarios(id, username, password, administrator, autor) values(?,?,?,?,?) ";
+            // Crealo si no existe y si existe actualizalo.
+            String usuarioDefecto = "MERGE INTO usuarios \n" +
+                    "KEY(ID) \n" +
+                    "VALUES (1, 'admin', '1234', true, true);";
+
+            // Ejecuta el query pasado por parámetro "usuarioDefecto".
             PreparedStatement prepareStatement = conexion.prepareStatement(usuarioDefecto);
 
-            // Antes de ejecutar se ponen los parámetros del usuario por defecto
-            prepareStatement.setInt(1, id);
-            prepareStatement.setString(2, username);
-            prepareStatement.setString(3, password);
-            prepareStatement.setBoolean(4, administrator);
-            prepareStatement.setBoolean(5, autor);
-
+            // Si se ejecutó el query bien pues la cantidad de filas de la tabla debe ser mayor a 0, pues se ha insertado una fila.
             int fila = prepareStatement.executeUpdate();
             creadoCorrectamente = fila > 0 ;
 
