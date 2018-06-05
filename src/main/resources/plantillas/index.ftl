@@ -1,14 +1,21 @@
 <#import "/plantillas/base.ftl" as base>
 <@base.pagina>
- <#list articulos as articulo>
-     <div class="card col-4">
-         <div class="card-body">
-             <h5 class="card-title">${articulo.titulo}</h5>
-             ${articulo.cuerpo}
-         </div>
-         <div class="card-footer">
-             <p class="fecha">${articulo.fecha}</p>
-         </div>
-     </div>
- </#list>
+<div class="col-12 p-2">
+    <div class="row">
+        <#list articulos as articulo>
+            <div class="card col-4 p-0">
+                <div class="card-body">
+                    <h5 class="card-title">${articulo.titulo}</h5>
+                    <p class="card-text text-muted m-0">${articulo.cuerpo}</p>
+                    <a href="#" class="text-danger float-right"><strong>Leer más...</strong></a>
+                </div>
+                <div class="card-footer p-2">
+                    <strong class="text-danger m-0">
+                        <i class="fas fa-calendar-alt"></i> ${articulo.fecha}
+                    </strong>
+                </div>
+            </div>
+        </#list>
+    </div>
+</div>
 </@base.pagina>

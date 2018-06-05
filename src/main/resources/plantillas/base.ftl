@@ -21,11 +21,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="container-fluid p-0">
+<div class="container-fluid">
     <div class="row">
         <div class="col">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 p-0">
                     <nav class="navbar navbar-expand-lg navbar-light bg-white p-0">
                         <a class="navbar-brand" href="/"><img src="/imagenes/logo.png" width="180"></a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,9 +50,7 @@
                     </nav>
                 </div>
             </div>
-            <div class="row">
-                <#nested>
-            </div>
+            <#nested>
         </div>
     </div>
 </div>
