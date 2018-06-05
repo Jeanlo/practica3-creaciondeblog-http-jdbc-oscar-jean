@@ -37,6 +37,8 @@
                                 <li class="nav-item">
                                     <a class="btn btn-success btn-lg botonCrear" href="/articulos/crear">
                                         <i class="fas fa-newspaper"></i> Crear artículo
+                                        <a class="btn btn-primary btn-lg botonSalir" href="/salir">
+                                            <i class="fas fa-sign-out-alt"></i> Salir
                                     </a>
                                 </li>
                             </ul>

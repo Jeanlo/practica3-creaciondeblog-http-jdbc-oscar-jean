@@ -5,6 +5,7 @@ import Servicios.ServicioUsuario;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
+import spark.Session;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -21,14 +22,11 @@ public class Enrutamiento {
 
         staticFiles.location("/publico");
 
-       /*before((req, res) -> {
-          if(req.cookie("sesionUsuario") == null){
+       before("/", (req, res) -> {
+          if(req.session().attribute("sesionUsuario") == null){
                res.redirect("/login");
            }
-           else {
-               res.redirect("/");
-           }
-        });*/
+        });
 
         get("/", (req, res) -> {
             StringWriter writer = new StringWriter();
@@ -37,6 +35,7 @@ public class Enrutamiento {
             ArrayList<Articulo> articulos = new ArrayList<>();
             articulos = ServicioArticulo.listarArticulos();
             atributos.put("articulos", articulos);
+            //atributos.put("logeado", req.session().attribute("sesionUsuario") != null);
             template.process(atributos, writer);
 
             return writer;
@@ -73,6 +72,16 @@ public class Enrutamiento {
             } catch(Exception e){
                 e.printStackTrace();
             }
+
+            return "";
+        });
+
+        get("/salir", (req, res) ->
+        {
+            Session sesion = req.session(true);
+            sesion.invalidate();
+
+            res.redirect("/");
 
             return "";
         });
