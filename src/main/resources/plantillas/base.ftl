@@ -28,13 +28,14 @@
                 <div class="col-12">
                     <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
                         <a class="navbar-brand" href="/"><img src="/imagenes/logo.png" width="200"></a>
+                        <input type="text" name="buscar" id="buscar" placeholder="Buscar por etiqueta">
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item">
-                                    <a class="btn btn-success btn-lg rounded-0" href="/articulos/crear">
+                                    <a class="btn btn-success btn-lg botonCrear" href="/articulos/crear">
                                         <i class="fas fa-newspaper"></i> Crear artículo
                                     </a>
                                 </li>
