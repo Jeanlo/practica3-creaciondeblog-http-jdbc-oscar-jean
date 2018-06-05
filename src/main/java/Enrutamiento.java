@@ -1,5 +1,7 @@
 import Modelos.Articulo;
+import Modelos.Usuario;
 import Servicios.ServicioArticulo;
+import Servicios.ServicioUsuario;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
@@ -19,14 +21,14 @@ public class Enrutamiento {
 
         staticFiles.location("/publico");
 
-//        before((req, res) -> {
-//            if(req.cookie("sesionUsuario") == null){
-//                res.redirect("/registro");
-//            }
-//            else {
-//                res.redirect("/");
-//            }
-//        });
+       /*before((req, res) -> {
+          if(req.cookie("sesionUsuario") == null){
+               res.redirect("/login");
+           }
+           else {
+               res.redirect("/");
+           }
+        });*/
 
         get("/", (req, res) -> {
             StringWriter writer = new StringWriter();
@@ -43,5 +45,38 @@ public class Enrutamiento {
         get("/registro", (req, res) -> {
             return "";
         });
+
+        get("/login", (req, res) -> {
+            StringWriter writer = new StringWriter();
+            Map<String, Object> atributos = new HashMap<>();
+            Template template = configuration.getTemplate("plantillas/login.ftl");
+            template.process(atributos, writer);
+
+            return writer;
+        });
+
+        post("/loginDatosEntrados", (req, res) -> {
+            try{
+                ServicioUsuario servicioUsuario = new ServicioUsuario();
+                String username = req.queryParams("username");
+                String contrasena = req.queryParams("password");
+                Usuario usuario = ServicioUsuario.elUsuarioExiste(username, contrasena);
+                if(usuario != null)
+                {
+                        req.session(true);
+                        req.session().attribute("sesionUsuario", usuario);
+                        res.redirect("/");
+                } else {
+                    res.redirect("/login");
+                }
+
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+
+            return "";
+        });
     }
+
+
 }
