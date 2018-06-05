@@ -35,7 +35,7 @@ public class Enrutamiento {
             ArrayList<Articulo> articulos = new ArrayList<>();
             articulos = ServicioArticulo.listarArticulos();
             atributos.put("articulos", articulos);
-            template.process(null, writer);
+            template.process(atributos, writer);
 
             return writer;
         });

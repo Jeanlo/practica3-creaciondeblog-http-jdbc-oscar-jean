@@ -31,7 +31,7 @@ public class Main {
             Enrutamiento.crearRutas();
 
             //Deteniendo el servicio de Base de datos
-            ServicioBootstrap.detenerBaseDatos();
+            // ServicioBootstrap.detenerBaseDatos();
         } catch (SQLException e) {
             e.printStackTrace();
         }

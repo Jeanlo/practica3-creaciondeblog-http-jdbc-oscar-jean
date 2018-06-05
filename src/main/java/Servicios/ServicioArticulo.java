@@ -32,7 +32,7 @@ public class ServicioArticulo  {
             }
 
             statement.close();
-            return articulos;
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally{
@@ -43,6 +43,6 @@ public class ServicioArticulo  {
             }
         }
 
-        return null;
+        return articulos;
     }
 }
