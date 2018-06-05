@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ServicioBootstrap {
-    public static void startDb() throws SQLException {
+    public static void iniciarBaseDatos() throws SQLException {
         Server.createTcpServer("-tcpPort", "9092", "-tcpAllowOthers").start();
     }
 
-    public static void stopDb() throws SQLException {
+    public static void detenerBaseDatos() throws SQLException {
         Server.shutdownTcpServer("tcp://localhost:9092", "", true, true);
     }
 

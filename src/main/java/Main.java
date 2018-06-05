@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             //Iniciando el servicio de Base de datos
-            ServicioBootstrap.startDb();
+            ServicioBootstrap.iniciarBaseDatos();
 
             //Prueba de conexión
             ServicioBaseDatos.getInstancia().testConexion();
@@ -28,8 +28,10 @@ public class Main {
             ServicioUsuario serviciouser = new ServicioUsuario();
             serviciouser.crearUsuarioPorDefecto();
 
+            Enrutamiento.crearRutas();
+
             //Deteniendo el servicio de Base de datos
-            ServicioBootstrap.stopDb();
+            ServicioBootstrap.detenerBaseDatos();
         } catch (SQLException e) {
             e.printStackTrace();
         }
