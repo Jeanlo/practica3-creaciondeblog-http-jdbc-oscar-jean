@@ -1,6 +1,9 @@
 import Modelos.Articulo;
+import Modelos.Etiqueta;
 import Modelos.Usuario;
 import Servicios.ServicioArticulo;
+import Servicios.ServicioBootstrap;
+import Servicios.ServicioEtiquetas;
 import Servicios.ServicioUsuario;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -120,8 +123,31 @@ public class Enrutamiento {
                 String string = req.queryParams("fecha");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDate fecha = LocalDate.parse(string, formatter);
-
                 ServicioArticulo.crearArticulo(id, titulo, cuerpo, fecha);
+                /*String[] etiquetas = req.queryParams("etiquetas").split(",");
+                ArrayList<Etiqueta> etiquetasAux = ServicioEtiquetas.conseguirEtiquetas();
+
+
+                long articuloID = ServicioEtiquetas.conseguirID("select * from articulos");
+
+                for (int i = 0; i < etiquetas.length; i++)
+                {
+                    boolean encontrado = false;
+                    for (Etiqueta etiqueta: etiquetasAux)
+                    {
+                        if(etiqueta.getEtiqueta().equals(etiquetas[i]))
+                        {
+                            encontrado = true;
+                        }
+                    }
+                    if(!encontrado)
+                    {
+                        ServicioBootstrap.ejecutarSQL("insert into Etiquetas (etiqueta) values ('" + etiquetas[i] + "')");
+                    }
+
+                    long etiquetaID = ServicioEtiquetas.conseguirID("select * from etiquetas where etiqueta ='" + etiquetas[i] + "'");
+                    ServicioBootstrap.ejecutarSQL("insert into articulosYetiquetas (articulo, etiqueta) values(" + articuloID +", " + etiquetaID +")");
+                }*/
 
                 res.redirect("/");
 

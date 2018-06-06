@@ -65,5 +65,14 @@ public class ServicioBootstrap {
                         "FOREIGN KEY(articuloID) REFERENCES articulos(id)" +
                         ");");
 
+        ejecutarSQL("create table if not exists articulosYetiquetas\n" +
+                "  (\n" +
+                "    id bigint auto_increment PRIMARY KEY,\n" +
+                "    articulo bigint,\n" +
+                "    etiqueta bigint,\n" +
+                "    FOREIGN KEY (articulo) REFERENCES Articulos(id),\n" +
+                "    FOREIGN KEY (etiqueta) REFERENCES Etiquetas(id)\n" +
+                "  )");
+
     }
 }
