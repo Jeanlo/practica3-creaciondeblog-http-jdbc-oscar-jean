@@ -148,8 +148,10 @@ public class Enrutamiento {
         notFound((req, res) -> {
             StringWriter writer = new StringWriter();
             Template template = configuration.getTemplate("plantillas/404.ftl");
-
-            template.process(null, writer);
+            Map<String, Object> atributos = new HashMap<>();
+            atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
+            atributos.put("nombreUsuario", nombreUsuario);
+            template.process(atributos, writer);
             res.status(404);
             res.body(writer.toString());
 
