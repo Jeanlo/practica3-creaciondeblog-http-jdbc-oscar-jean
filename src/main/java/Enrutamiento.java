@@ -106,10 +106,6 @@ public class Enrutamiento {
             return null;
         });
 
-
-
-
-
         path("/articulo", () -> {
            get("/crear", (req, res) -> {
                StringWriter writer = new StringWriter();
@@ -168,6 +164,40 @@ public class Enrutamiento {
 
                 */
                 res.redirect("/");
+
+                return null;
+            });
+
+            get("/editar/:id", (req, res) -> {
+                for(Articulo articulo : articulos) {
+                    if(articulo.getId() == Integer.parseInt( req.params("id"))) {
+                        StringWriter writer = new StringWriter();
+                        Map<String, Object> atributos = new HashMap<>();
+                        Template template = configuration.getTemplate("plantillas/editar-articulo.ftl");
+
+                        atributos.put("articulo", articulo);
+                        atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
+                        atributos.put("nombreUsuario", nombreUsuario);
+                        template.process(atributos, writer);
+
+                        return writer;
+                    }
+                }
+
+                return null;
+            });
+
+            post("/editar/:id", (req, res) -> {
+                long id = Integer.parseInt(req.params("id"));
+                String titulo = req.queryParams("titulo");
+                String cuerpo = req.queryParams("cuerpo");
+
+                String string = req.queryParams("fecha");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate fecha = LocalDate.parse(string, formatter);
+                ServicioArticulo.crearArticulo(id, titulo, cuerpo, fecha);
+
+                res.redirect("/articulo/" + id);
 
                 return null;
             });
