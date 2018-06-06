@@ -3,8 +3,8 @@
 <div class="col-12 p-2">
     <div class="row">
         <#list articulos as articulo>
-            <div class="col-5 p-0 ml-5 mb-5">
-                <div class="card">
+            <div class="col-6 mx-auto p-0">
+                <div class="card mx-2 mb-5">
                     <div class="card-body">
                         <h5 class="card-title">${articulo.titulo}</h5>
                         <p class="card-text text-muted m-0 cuerpo-corto">${articulo.cuerpoCorto}</p>
