@@ -1,4 +1,4 @@
-<#macro pagina>
+<#macro pagina logueado=false>
 <!doctype html>
 <html lang="es">
 <head>
@@ -32,6 +32,7 @@
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <#if logueado>
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item">
                                     <a class="btn btn-link text-dark" href="/articulos/crear">
@@ -46,6 +47,7 @@
                             <a class="btn btn-dark mr-2" href="/salir">
                                 <i class="fas fa-sign-out-alt"></i> Salir
                             </a>
+                            </#if>
                         </div>
                     </nav>
                 </div>

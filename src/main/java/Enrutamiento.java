@@ -34,7 +34,7 @@ public class Enrutamiento {
             Template template = configuration.getTemplate("plantillas/index.ftl");
             ArrayList<Articulo> articulos = ServicioArticulo.listarArticulos();
             atributos.put("articulos", articulos);
-            //atributos.put("logeado", req.session().attribute("sesionUsuario") != null);
+            atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
             template.process(atributos, writer);
 
             return writer;
