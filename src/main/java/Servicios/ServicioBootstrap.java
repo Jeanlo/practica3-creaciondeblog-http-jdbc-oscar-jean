@@ -1,3 +1,11 @@
+/*********************************************************
+ *  Práctica #3 - HTTP - JDBC (Creación de un blog)       *
+ *  Realizada por:                                        *
+ *      - Oscar Dionisio Núñez Siri - 2014-0056           *
+ *      - Jean Louis Tejeda - 2013-1459                   *
+ *  Materia: Programación Web - ISC-415-T-001             *
+ *********************************************************/
+
 package Servicios;
 
 import org.h2.tools.Server;
@@ -7,13 +15,29 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ServicioBootstrap {
+
+    /*
+            Se encarga de iniciar la base de datos para poder hacer
+            transacciones y demás acciones.
+     */
+
     public static void iniciarBaseDatos() throws SQLException {
         Server.createTcpServer("-tcpPort", "9092", "-tcpAllowOthers").start();
     }
 
+    /*
+            Se encarga de detener la base de datos, en el caso de que sea
+            necesario.
+     */
+
     public static void detenerBaseDatos() throws SQLException {
         Server.shutdownTcpServer("tcp://localhost:9092", "", true, true);
     }
+
+    /*
+           Ejecuta cualquier consulta SQL que se le pase
+           como parámetro.
+     */
 
     public static void ejecutarSQL(String sql) throws SQLException {
         Connection conexion = ServicioBaseDatos.getInstancia().getConexion();
@@ -25,6 +49,10 @@ public class ServicioBootstrap {
 
         conexion.close();
     }
+
+    /*
+            Crea todas las tablas por medio de SQL.
+     */
 
     public static void crearTablas() throws SQLException {
         ejecutarSQL(
@@ -64,6 +92,15 @@ public class ServicioBootstrap {
                         "articuloID BIGINT, \n" +
                         "FOREIGN KEY(articuloID) REFERENCES articulos(id)" +
                         ");");
+
+        ejecutarSQL("create table if not exists articulosYetiquetas\n" +
+                "  (\n" +
+                "    id bigint auto_increment PRIMARY KEY,\n" +
+                "    articulo bigint,\n" +
+                "    etiqueta bigint,\n" +
+                "    FOREIGN KEY (articulo) REFERENCES Articulos(id),\n" +
+                "    FOREIGN KEY (etiqueta) REFERENCES Etiquetas(id)\n" +
+                "  )");
 
     }
 }

@@ -15,13 +15,13 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String[] args) {
         try {
-            //Iniciando el servicio de Base de datos
+            // Iniciando el servicio de Base de datos
             ServicioBootstrap.iniciarBaseDatos();
 
-            //Prueba de conexión
+            // Prueba de conexión
             ServicioBaseDatos.getInstancia().testConexion();
 
-            //Creando tablas de la Base de datos
+            // Creando tablas de la Base de datos
             ServicioBootstrap.crearTablas();
 
             // Crear usuario por defecto
@@ -30,8 +30,9 @@ public class Main {
 
             Enrutamiento.crearRutas();
 
-            //Deteniendo el servicio de Base de datos
+            // Deteniendo el servicio de Base de datos (no se usará por ahora pues no es necesario).
             // ServicioBootstrap.detenerBaseDatos();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
