@@ -4,8 +4,12 @@ body {
     margin: 0;
 }
 
-.navbar {
+.boxed-shadow {
     box-shadow: 3px 3px 3px rgba(34, 34, 34, 0.12);
+}
+
+.nombre-usuario {
+    border-right: 1px solid rgb(0, 0, 0);
 }
 
 .btn {
@@ -24,7 +28,6 @@ body {
 .container-buscar {
     background: #F2F2F2;
     border-radius: 10px;
-    box-shadow: 3px 3px 3px rgba(34, 34, 34, 0.12);
     color: #999;
     width: 40rem;
 }

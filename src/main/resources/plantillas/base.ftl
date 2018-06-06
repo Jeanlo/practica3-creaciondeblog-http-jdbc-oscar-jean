@@ -26,7 +26,7 @@
         <div class="col">
             <div class="row">
                 <div class="col-12 p-0">
-                    <nav class="navbar navbar-expand-lg navbar-light bg-white p-0">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-white p-0 boxed-shadow">
                         <a class="navbar-brand" href="/"><img src="/imagenes/logo.png" width="180"></a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
@@ -39,13 +39,13 @@
                                         <i class="fas fa-newspaper"></i> Crear artículo
                                     </a>
                                 </li>
-                                <li class="nav-item ml-2 container-buscar py-2 px-3">
+                                <li class="nav-item ml-2 container-buscar py-2 px-3 boxed-shadow">
                                     <i class="fas fa-hashtag"></i>
                                     <input type="text" name="buscar" placeholder="buscar por etiqueta">
                                 </li>
                             </ul>
-                            <img class="rounded-circle" src="/imagenes/perfil.jpg" alt="foto de usuario" width="64px">
-                            <a class="nombreUsuario">${usuario}</a>
+                            <img class="rounded-circle boxed-shadow" src="/imagenes/perfil.jpg" alt="foto de usuario" width="64px">
+                            <a class="mx-2 nombre-usuario px-1"><strong>${usuario}</strong></a>
                             <a class="btn btn-dark mr-2" href="/salir">
                                 <i class="fas fa-sign-out-alt"></i> Salir
                             </a>
