@@ -124,7 +124,10 @@ public class Enrutamiento {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDate fecha = LocalDate.parse(string, formatter);
                 ServicioArticulo.crearArticulo(id, titulo, cuerpo, fecha);
-                /*String[] etiquetas = req.queryParams("etiquetas").split(",");
+                /*
+                LOGICA DE LAS ETIQUETAS (PARCIALMENTE FUNCIONAL).
+
+                String[] etiquetas = req.queryParams("etiquetas").split(",");
                 ArrayList<Etiqueta> etiquetasAux = ServicioEtiquetas.conseguirEtiquetas();
 
 
