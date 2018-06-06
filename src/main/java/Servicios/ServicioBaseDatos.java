@@ -8,12 +8,16 @@ public class ServicioBaseDatos {
     private static ServicioBaseDatos baseDatos;
     private String URL = "jdbc:h2:tcp://localhost/~/manga-anime-empire";
 
+    // Consigue una instancia de la base de datos en el caso de que no exista.
+
     public static ServicioBaseDatos getInstancia() {
         if (baseDatos == null)
             baseDatos = new ServicioBaseDatos();
 
         return baseDatos;
     }
+
+    // Consigue una conexión de la base de datos para ejeuctar statements y demás.
 
     public Connection getConexion() {
         Connection conexion = null;
@@ -26,6 +30,8 @@ public class ServicioBaseDatos {
 
         return conexion;
     }
+
+    // Prueba la conexión con la base de datos para probar que la aplicación pueda correr correctamente
 
     public void testConexion() {
         try {
