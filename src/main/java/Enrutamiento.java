@@ -44,6 +44,8 @@ public class Enrutamiento {
             Map<String, Object> atributos = new HashMap<>();
             Template template = configuration.getTemplate("plantillas/index.ftl");
 
+            articulos = ServicioArticulo.listarArticulos();
+
             Articulo articulo = new Articulo();
             articulo.setListaEtiquetas(etiquetasAux);
 
@@ -197,7 +199,7 @@ public class Enrutamiento {
                 LocalDate fecha = LocalDate.parse(string, formatter);
                 ServicioArticulo.crearArticulo(id, titulo, cuerpo, fecha);
 
-                res.redirect("/articulo/" + id);
+                res.redirect("/");
 
                 return null;
             });
