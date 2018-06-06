@@ -8,6 +8,10 @@ body {
     box-shadow: 3px 3px 3px rgba(34, 34, 34, 0.12);
 }
 
+.text-shadow {
+    text-shadow: 3px 3px 3px rgba(34, 34, 34, 0.12);
+}
+
 .nombre-usuario {
     border-right: 1px solid rgb(0, 0, 0);
 }
@@ -50,4 +54,11 @@ body {
 .upbottom-letters {
     writing-mode: vertical-rl;
     text-orientation: upright;
+}
+
+.no-encontrado {
+    background: url('/imagenes/404-fondo.jpg') no-repeat fixed;
+    background-size: cover;
+    height: 100% !important;
+    width: 100% !important;;
 }
