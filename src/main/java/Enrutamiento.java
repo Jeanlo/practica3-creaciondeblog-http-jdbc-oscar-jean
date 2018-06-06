@@ -23,7 +23,7 @@ import static spark.Spark.*;
 public class Enrutamiento {
 
     static ArrayList<Etiqueta> etiquetasAux = new ArrayList<>();
-    static ArrayList<Articulo> articulos = new ArrayList<>();
+    static ArrayList<Articulo> articulos = ServicioArticulo.listarArticulos();
     static String nombreUsuario = "";
     static Boolean etiquetasBool = false;
 
@@ -43,7 +43,6 @@ public class Enrutamiento {
             StringWriter writer = new StringWriter();
             Map<String, Object> atributos = new HashMap<>();
             Template template = configuration.getTemplate("plantillas/index.ftl");
-            articulos = ServicioArticulo.listarArticulos();
 
             Articulo articulo = new Articulo();
             articulo.setListaEtiquetas(etiquetasAux);
