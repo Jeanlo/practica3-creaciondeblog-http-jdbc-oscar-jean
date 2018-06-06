@@ -16,7 +16,7 @@
                         <textarea name="cuerpo" class="form-control rounded-0"></textarea>
                         <br>
                         <label for="etiqueta"><strong>Etiquetas</strong></label>
-                        <input id= "etiqueta" type="text" class="form-control full-input" name="etiquetas" placeholder="etiqueta1,etiqueta2,etiqueta3...">
+                        <input id= "etiquetas" type="text" class="form-control full-input" name="etiquetas" placeholder="etiqueta1,etiqueta2,etiqueta3...">
                     </div>
                     <button class="btn btn-outline-dark btn-block my-3" type="submit">
                         CREAR ARTÍCULO

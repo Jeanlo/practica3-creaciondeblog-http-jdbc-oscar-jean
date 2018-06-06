@@ -22,8 +22,10 @@ import static spark.Spark.*;
 
 public class Enrutamiento {
 
+    static ArrayList<Etiqueta> etiquetasAux = new ArrayList<>();
     static ArrayList<Articulo> articulos = new ArrayList<>();
     static String nombreUsuario = "";
+    static Boolean etiquetasBool = false;
 
     public static void crearRutas(){
        final Configuration configuration = new Configuration(new Version(2, 3, 23));
@@ -42,9 +44,20 @@ public class Enrutamiento {
             Map<String, Object> atributos = new HashMap<>();
             Template template = configuration.getTemplate("plantillas/index.ftl");
             articulos = ServicioArticulo.listarArticulos();
+
+            Articulo articulo = new Articulo();
+            articulo.setListaEtiquetas(etiquetasAux);
+
             atributos.put("articulos", articulos);
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
             atributos.put("nombreUsuario", nombreUsuario);
+            /*
+            atributos.put("etiquetasBool", etiquetasBool);
+
+            if(etiquetasBool) {
+                atributos.put("etiquetas", articulo.getListaEtiquetas().get(1));
+            }
+            */
             template.process(atributos, writer);
 
             return writer;
@@ -124,11 +137,11 @@ public class Enrutamiento {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDate fecha = LocalDate.parse(string, formatter);
                 ServicioArticulo.crearArticulo(id, titulo, cuerpo, fecha);
+
                 /*
-                LOGICA DE LAS ETIQUETAS (PARCIALMENTE FUNCIONAL).
 
                 String[] etiquetas = req.queryParams("etiquetas").split(",");
-                ArrayList<Etiqueta> etiquetasAux = ServicioEtiquetas.conseguirEtiquetas();
+                 etiquetasAux = ServicioEtiquetas.conseguirEtiquetas();
 
 
                 long articuloID = ServicioEtiquetas.conseguirID("select * from articulos");
@@ -145,13 +158,16 @@ public class Enrutamiento {
                     }
                     if(!encontrado)
                     {
-                        ServicioBootstrap.ejecutarSQL("insert into Etiquetas (etiqueta) values ('" + etiquetas[i] + "')");
+                        ServicioBootstrap.ejecutarSQL("insert into etiquetas (etiqueta) values ('" + etiquetas[i] + "')");
                     }
 
                     long etiquetaID = ServicioEtiquetas.conseguirID("select * from etiquetas where etiqueta ='" + etiquetas[i] + "'");
                     ServicioBootstrap.ejecutarSQL("insert into articulosYetiquetas (articulo, etiqueta) values(" + articuloID +", " + etiquetaID +")");
-                }*/
+                }
 
+                etiquetasBool = true;
+
+                */
                 res.redirect("/");
 
                 return null;

@@ -17,6 +17,11 @@ public class Articulo {
     private String cuerpo;
     private Usuario autor;
     private Date fecha;
+    private ArrayList<Comentario> listaComentarios;
+    private ArrayList<Etiqueta> listaEtiquetas;
+
+    public Articulo() {
+    }
 
     public long getId() {
         return id;
@@ -86,9 +91,6 @@ public class Articulo {
 
         return cuerpoCorto;
     }
-
-    private ArrayList<Comentario> listaComentarios;
-    private ArrayList<Etiqueta> listaEtiquetas;
 
     public Articulo(long id, String titulo, String cuerpo, Usuario autor, Date fecha, ArrayList<Comentario> listaComentarios, ArrayList<Etiqueta> listaEtiquetas) {
         this.id = id;
