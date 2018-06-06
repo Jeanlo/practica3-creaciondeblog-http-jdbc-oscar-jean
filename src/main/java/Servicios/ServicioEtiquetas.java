@@ -18,7 +18,7 @@ public class ServicioEtiquetas {
             Connection conexion = servicioBaseDatos.getConexion();
             Statement statement = conexion.createStatement();
 
-            ResultSet resultado = statement.executeQuery("select * from Etiquetas");
+            ResultSet resultado = statement.executeQuery("select * from Etiquetas ORDER BY ID");
             while (resultado.next())
             {
                 etiquetas.add(new Etiqueta(resultado.getLong("id"), resultado.getString("etiqueta")));
@@ -35,7 +35,7 @@ public class ServicioEtiquetas {
 
     public static long conseguirID(String consulta)
     {
-        long id = -1;
+        long idCualquierTabla = -1;
 
         try
         {
@@ -46,7 +46,7 @@ public class ServicioEtiquetas {
             ResultSet rs = statement.executeQuery(consulta);
             while (rs.next())
             {
-                id = rs.getLong("id");
+                idCualquierTabla = rs.getLong("id");
             }
             statement.close();
             conexion.close();
@@ -55,6 +55,6 @@ public class ServicioEtiquetas {
         {
             e.printStackTrace();
         }
-        return id;
+        return idCualquierTabla;
     }
 }
