@@ -83,4 +83,29 @@ public class ServicioArticulo  {
 
         return creadoCorrectamente;
     }
+
+    public static void eliminarArticulo(Long id) {
+        Connection conexion = ServicioBaseDatos.getInstancia().getConexion();
+        ArrayList<Articulo> articulos = new ArrayList<>();
+
+        try {
+            // Consultando y eliminando el articulo que tenga el id indicando.
+            String eliminarArticuloQuery = "DELETE FROM articulos where ID = " + id + ";";
+
+            // Ejecuta el query.
+            Statement statement = conexion.createStatement();
+            ResultSet resultado = statement.executeQuery(eliminarArticuloQuery);
+
+            statement.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally{
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 }
