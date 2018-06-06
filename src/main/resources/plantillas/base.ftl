@@ -35,7 +35,7 @@
                             <#if logueado>
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item">
-                                    <a class="btn btn-link text-dark" href="/articulos/crear">
+                                    <a class="btn btn-link text-dark" href="/articulo/crear">
                                         <i class="fas fa-newspaper"></i> Crear artículo
                                     </a>
                                 </li>

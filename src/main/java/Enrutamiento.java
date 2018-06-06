@@ -8,7 +8,10 @@ import freemarker.template.Version;
 import spark.Session;
 
 import java.io.StringWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -88,7 +91,40 @@ public class Enrutamiento {
             return null;
         });
 
+
+
+
+
         path("/articulo", () -> {
+           get("/crear", (req, res) -> {
+               StringWriter writer = new StringWriter();
+               Map<String, Object> atributos = new HashMap<>();
+               Template template = configuration.getTemplate("plantillas/crear-articulo.ftl");
+
+               atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
+               atributos.put("nombreUsuario", nombreUsuario);
+               atributos.put("fechaActual", new Date().toString());
+               template.process(atributos, writer);
+
+               return writer;
+           });
+
+            post("/crear", (req, res) -> {
+                long id = articulos.size() + 1;
+                String titulo = req.queryParams("titulo");
+                String cuerpo = req.queryParams("cuerpo");
+
+                String string = req.queryParams("fecha");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate fecha = LocalDate.parse(string, formatter);
+
+                ServicioArticulo.crearArticulo(id, titulo, cuerpo, fecha);
+
+                res.redirect("/");
+
+                return null;
+            });
+
            get("/:id", (req, res) -> {
                 for(Articulo articulo : articulos) {
                     if(articulo.getId() == Integer.parseInt( req.params("id"))) {
