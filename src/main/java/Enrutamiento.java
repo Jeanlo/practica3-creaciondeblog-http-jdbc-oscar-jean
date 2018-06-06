@@ -103,7 +103,9 @@ public class Enrutamiento {
 
                atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
                atributos.put("nombreUsuario", nombreUsuario);
-               atributos.put("fechaActual", new Date().toString());
+               DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+               LocalDate fecha = LocalDate.parse(new Date().toString(), formatter);
+               atributos.put("fechaActual", fecha.toString());
                template.process(atributos, writer);
 
                return writer;
