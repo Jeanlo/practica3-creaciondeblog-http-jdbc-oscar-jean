@@ -70,7 +70,7 @@ public class Articulo {
         String cuerpoCorto = "";
 
         for(int i = 0; i < 70; i++) {
-            if(i > this.getCuerpo().length())
+            if(i >= this.getCuerpo().length())
                 break;
 
             cuerpoCorto += this.getCuerpo().charAt(i);
