@@ -32,17 +32,12 @@ public class Enrutamiento {
             StringWriter writer = new StringWriter();
             Map<String, Object> atributos = new HashMap<>();
             Template template = configuration.getTemplate("plantillas/index.ftl");
-            ArrayList<Articulo> articulos = new ArrayList<>();
-            articulos = ServicioArticulo.listarArticulos();
+            ArrayList<Articulo> articulos = ServicioArticulo.listarArticulos();
             atributos.put("articulos", articulos);
             //atributos.put("logeado", req.session().attribute("sesionUsuario") != null);
             template.process(atributos, writer);
 
             return writer;
-        });
-
-        get("/registro", (req, res) -> {
-            return "";
         });
 
         get("/login", (req, res) -> {
@@ -54,26 +49,29 @@ public class Enrutamiento {
             return writer;
         });
 
-        post("/loginDatosEntrados", (req, res) -> {
+        post("/login", (req, res) -> {
             try{
-                ServicioUsuario servicioUsuario = new ServicioUsuario();
                 String username = req.queryParams("username");
                 String contrasena = req.queryParams("password");
                 Usuario usuario = ServicioUsuario.elUsuarioExiste(username, contrasena);
+
                 if(usuario != null)
                 {
-                        req.session(true);
-                        req.session().attribute("sesionUsuario", usuario);
-                        res.redirect("/");
+                    req.session(true);
+                    req.session().attribute("sesionUsuario", usuario);
+                    res.redirect("/");
                 } else {
                     res.redirect("/login");
                 }
-
             } catch(Exception e){
                 e.printStackTrace();
             }
 
-            return "";
+            return null;
+        });
+
+        post("/registrar", (req, res) -> {
+            return null;
         });
 
         get("/salir", (req, res) ->
@@ -83,7 +81,7 @@ public class Enrutamiento {
 
             res.redirect("/");
 
-            return "";
+            return null;
         });
     }
 
