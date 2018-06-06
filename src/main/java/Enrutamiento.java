@@ -15,7 +15,7 @@ import java.util.Map;
 import static spark.Spark.*;
 
 public class Enrutamiento {
-
+    static String username = "";
     public static void crearRutas(){
         final Configuration configuration = new Configuration(new Version(2, 3, 23));
         configuration.setClassForTemplateLoading(Main.class, "/");
@@ -35,6 +35,7 @@ public class Enrutamiento {
             ArrayList<Articulo> articulos = ServicioArticulo.listarArticulos();
             atributos.put("articulos", articulos);
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
+            atributos.put("nombreUsuario", username);
             template.process(atributos, writer);
 
             return writer;
@@ -51,7 +52,7 @@ public class Enrutamiento {
 
         post("/login", (req, res) -> {
             try{
-                String username = req.queryParams("username");
+                username = req.queryParams("username");
                 String contrasena = req.queryParams("password");
                 Usuario usuario = ServicioUsuario.elUsuarioExiste(username, contrasena);
 

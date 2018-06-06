@@ -1,4 +1,4 @@
-<#macro pagina logueado=false>
+<#macro pagina logueado=false usuario="">
 <!doctype html>
 <html lang="es">
 <head>
@@ -44,6 +44,8 @@
                                     <input type="text" name="buscar" placeholder="buscar por etiqueta">
                                 </li>
                             </ul>
+                            <img class="rounded-circle" src="/imagenes/perfil.jpg" alt="foto de usuario" width="64px">
+                            <a class="nombreUsuario">${usuario}</a>
                             <a class="btn btn-dark mr-2" href="/salir">
                                 <i class="fas fa-sign-out-alt"></i> Salir
                             </a>
