@@ -87,16 +87,18 @@ public class ServicioArticulo  {
     public static void eliminarArticulo(Long id) {
         Connection conexion = ServicioBaseDatos.getInstancia().getConexion();
         ArrayList<Articulo> articulos = new ArrayList<>();
+        boolean creadoCorrectamente;
 
         try {
             // Consultando y eliminando el articulo que tenga el id indicando.
             String eliminarArticuloQuery = "DELETE FROM articulos where ID = " + id + ";";
 
-            // Ejecuta el query.
-            Statement statement = conexion.createStatement();
-            ResultSet resultado = statement.executeQuery(eliminarArticuloQuery);
+            // Ejecuta el query pasado por parámetro "usuarioDefecto".
+            PreparedStatement prepareStatement = conexion.prepareStatement(eliminarArticuloQuery);
 
-            statement.close();
+            // Si se ejecutó el query bien pues la cantidad de filas de la tabla debe ser mayor a 0, pues se ha insertado una fila.
+            int fila = prepareStatement.executeUpdate();
+            creadoCorrectamente = fila > 0 ;
 
         } catch (SQLException ex) {
             ex.printStackTrace();

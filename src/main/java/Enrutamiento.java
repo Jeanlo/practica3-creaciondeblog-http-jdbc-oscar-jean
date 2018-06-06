@@ -204,6 +204,11 @@ public class Enrutamiento {
                 return null;
             });
 
+            get("/eliminar/:id", (req, res) -> {
+                ServicioArticulo.eliminarArticulo(Long.parseLong(req.params("id")));
+                res.redirect("/");
+                return null;
+            });
            get("/:id", (req, res) -> {
                 for(Articulo articulo : articulos) {
                     if(articulo.getId() == Integer.parseInt( req.params("id"))) {
