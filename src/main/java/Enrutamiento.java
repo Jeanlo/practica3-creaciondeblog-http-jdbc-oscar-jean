@@ -15,12 +15,15 @@ import java.util.Map;
 import static spark.Spark.*;
 
 public class Enrutamiento {
-    static String username = "";
-    public static void crearRutas(){
-        final Configuration configuration = new Configuration(new Version(2, 3, 23));
-        configuration.setClassForTemplateLoading(Main.class, "/");
 
-        staticFiles.location("/publico");
+    static ArrayList<Articulo> articulos = new ArrayList<>();
+    static String nombreUsuario = "";
+
+    public static void crearRutas(){
+       final Configuration configuration = new Configuration(new Version(2, 3, 23));
+       configuration.setClassForTemplateLoading(Main.class, "/");
+
+       staticFiles.location("/publico");
 
        before("/", (req, res) -> {
           if(req.session().attribute("sesionUsuario") == null){
@@ -32,10 +35,10 @@ public class Enrutamiento {
             StringWriter writer = new StringWriter();
             Map<String, Object> atributos = new HashMap<>();
             Template template = configuration.getTemplate("plantillas/index.ftl");
-            ArrayList<Articulo> articulos = ServicioArticulo.listarArticulos();
+            articulos = ServicioArticulo.listarArticulos();
             atributos.put("articulos", articulos);
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
-            atributos.put("nombreUsuario", username);
+            atributos.put("nombreUsuario", nombreUsuario);
             template.process(atributos, writer);
 
             return writer;
@@ -52,9 +55,9 @@ public class Enrutamiento {
 
         post("/login", (req, res) -> {
             try{
-                username = req.queryParams("username");
+                nombreUsuario = req.queryParams("username");
                 String contrasena = req.queryParams("password");
-                Usuario usuario = ServicioUsuario.elUsuarioExiste(username, contrasena);
+                Usuario usuario = ServicioUsuario.elUsuarioExiste(nombreUsuario, contrasena);
 
                 if(usuario != null)
                 {
@@ -83,6 +86,27 @@ public class Enrutamiento {
             res.redirect("/");
 
             return null;
+        });
+
+        path("/articulo", () -> {
+           get("/:id", (req, res) -> {
+                for(Articulo articulo : articulos) {
+                    if(articulo.getId() == Integer.parseInt( req.params("id"))) {
+                        StringWriter writer = new StringWriter();
+                        Map<String, Object> atributos = new HashMap<>();
+                        Template template = configuration.getTemplate("plantillas/articulo.ftl");
+
+                        atributos.put("articulo", articulo);
+                        atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
+                        atributos.put("nombreUsuario", nombreUsuario);
+                        template.process(atributos, writer);
+
+                        return writer;
+                    }
+                }
+
+                return null;
+           });
         });
     }
 
