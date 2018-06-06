@@ -144,6 +144,17 @@ public class Enrutamiento {
                 return null;
            });
         });
+
+        notFound((req, res) -> {
+            StringWriter writer = new StringWriter();
+            Template template = configuration.getTemplate("plantillas/404.ftl");
+
+            template.process(null, writer);
+            res.status(404);
+            res.body(writer.toString());
+
+            return writer;
+        });
     }
 
 
