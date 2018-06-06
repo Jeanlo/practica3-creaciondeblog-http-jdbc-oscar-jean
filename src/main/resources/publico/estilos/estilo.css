@@ -1,6 +1,5 @@
 body {
-    background: url("/imagenes/fondo.png") no-repeat fixed;
-    background-size: cover;
+    background-size: auto;
     margin: 0;
 }
 
@@ -57,8 +56,6 @@ body {
 }
 
 .no-encontrado {
-    background: url('/imagenes/404-fondo.jpg') no-repeat fixed;
-    background-size: cover;
     height: 100% !important;
     width: 100% !important;;
 }
