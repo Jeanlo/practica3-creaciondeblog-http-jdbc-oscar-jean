@@ -108,53 +108,56 @@ public class Enrutamiento {
 
         path("/articulo", () -> {
            get("/crear", (req, res) -> {
-               StringWriter writer = new StringWriter();
-               Map<String, Object> atributos = new HashMap<>();
-               Template template = configuration.getTemplate("plantillas/crear-articulo.ftl");
+               if(usuario.isAutor()) {
+                   StringWriter writer = new StringWriter();
+                   Map<String, Object> atributos = new HashMap<>();
+                   Template template = configuration.getTemplate("plantillas/crear-articulo.ftl");
 
-               atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
-               atributos.put("nombreUsuario", nombreUsuario);
+                   atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
+                   atributos.put("nombreUsuario", nombreUsuario);
 //               DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 //               LocalDate fecha = LocalDate.parse(new Date().toString(), formatter);
 //               Poniendo en On Hold el formateo de la fecha
-               atributos.put("fechaActual", new Date().toString());
-               template.process(atributos, writer);
+                   atributos.put("fechaActual", new Date().toString());
+                   template.process(atributos, writer);
 
-               return writer;
+                   return writer;
+               }
+               res.redirect("/");
+               return null;
            });
 
             post("/crear", (req, res) -> {
-                long idArticulo = ServicioArticulo.conseguirTamano() + 1;
-                String titulo = req.queryParams("titulo");
-                String cuerpo = req.queryParams("cuerpo");
-                long usuarioID = usuario.getId();
+                if(usuario.isAutor()) {
+                    long idArticulo = ServicioArticulo.conseguirTamano() + 1;
+                    String titulo = req.queryParams("titulo");
+                    String cuerpo = req.queryParams("cuerpo");
+                    long usuarioID = usuario.getId();
 
-                String string = req.queryParams("fecha");
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                LocalDate fecha = LocalDate.parse(string, formatter);
-                ServicioArticulo.crearArticulo(idArticulo, titulo, cuerpo, usuarioID, fecha);
+                    String string = req.queryParams("fecha");
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    LocalDate fecha = LocalDate.parse(string, formatter);
+                    ServicioArticulo.crearArticulo(idArticulo, titulo, cuerpo, usuarioID, fecha);
 
-                String[] etiquetas = req.queryParams("etiquetas").split(",");
-                //etiquetasAux = ServicioEtiquetas.conseguirEtiquetas(idArticulo);
+                    String[] etiquetas = req.queryParams("etiquetas").split(",");
+                    //etiquetasAux = ServicioEtiquetas.conseguirEtiquetas(idArticulo);
 
-                long articuloID = ServicioArticulo.buscarArticulo(idArticulo).getId();
-                long etiquetaIDAux;
+                    long articuloID = ServicioArticulo.buscarArticulo(idArticulo).getId();
+                    long etiquetaIDAux;
 
-                for (int i = 0; i < etiquetas.length; i++)
-                {
-                    if(ServicioEtiquetas.conseguirID("select * from etiquetas;") != -1) {
-                         etiquetaIDAux = ServicioEtiquetas.conseguirID("select * from etiquetas;") + 1;
+                    for (int i = 0; i < etiquetas.length; i++) {
+                        if (ServicioEtiquetas.conseguirID("select * from etiquetas;") != -1) {
+                            etiquetaIDAux = ServicioEtiquetas.conseguirID("select * from etiquetas;") + 1;
+                        } else {
+                            etiquetaIDAux = 1;
+                        }
+                        ServicioBootstrap.ejecutarSQL("MERGE INTO etiquetas \n" +
+                                "KEY(ID) \n" +
+                                "VALUES (" + etiquetaIDAux + ", " + "'" + etiquetas[i] + "');");
+                        long etiquetaID = ServicioEtiquetas.conseguirID("select * from etiquetas where etiqueta = '" + etiquetas[i] + "';");
+                        ServicioBootstrap.ejecutarSQL("insert into articulosYetiquetas (articulo, etiqueta) values(" + articuloID + ", " + etiquetaID + ");");
                     }
-                    else {
-                        etiquetaIDAux = 1;
-                    }
-                    ServicioBootstrap.ejecutarSQL("MERGE INTO etiquetas \n" +
-                            "KEY(ID) \n" +
-                            "VALUES (" + etiquetaIDAux + ", " + "'" + etiquetas[i] + "');");
-                    long etiquetaID = ServicioEtiquetas.conseguirID("select * from etiquetas where etiqueta = '" + etiquetas[i] + "';");
-                    ServicioBootstrap.ejecutarSQL("insert into articulosYetiquetas (articulo, etiqueta) values(" + articuloID + ", " + etiquetaID +");");
                 }
-
                 res.redirect("/");
 
                 return null;
@@ -190,32 +193,37 @@ public class Enrutamiento {
 
                 return null;
             });
-
             get("/eliminar/:id", (req, res) -> {
-                StringWriter writer = new StringWriter();
-                Map<String, Object> atributos = new HashMap<>();
-                Template template = configuration.getTemplate("plantillas/eliminar-articulo.ftl");
+                if(usuario.isAdminstrator()) {
+                    StringWriter writer = new StringWriter();
+                    Map<String, Object> atributos = new HashMap<>();
+                    Template template = configuration.getTemplate("plantillas/eliminar-articulo.ftl");
 
-                Articulo articulo = ServicioArticulo.buscarArticulo(Long.parseLong(req.params("id")));
+                    Articulo articulo = ServicioArticulo.buscarArticulo(Long.parseLong(req.params("id")));
 
-                atributos.put("articulo", articulo);
-                atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
-                atributos.put("nombreUsuario", nombreUsuario);
-                template.process(atributos, writer);
+                    atributos.put("articulo", articulo);
+                    atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
+                    atributos.put("nombreUsuario", nombreUsuario);
+                    template.process(atributos, writer);
 
-                return writer;
+                    return writer;
+                }
+                res.redirect("/");
+                return null;
             });
 
             post("/eliminar/:id", (req, res) -> {
-                ServicioBootstrap.ejecutarSQL("DELETE FROM comentarios where articuloid = " + req.params("id"));
-                ArrayList<Long> etiquetasID = ServicioEtiquetas.conseguirIDEtiquetas(Long.parseLong(req.params("id")));
+                if(usuario.isAdminstrator()) {
+                    ServicioBootstrap.ejecutarSQL("DELETE FROM comentarios where articuloid = " + req.params("id"));
+                    ArrayList<Long> etiquetasID = ServicioEtiquetas.conseguirIDEtiquetas(Long.parseLong(req.params("id")));
 
-                for(Long etiqueta: etiquetasID){
-                    ServicioBootstrap.ejecutarSQL("DELETE FROM articulosyetiquetas where articulo = " +  req.params("id"));
-                    ServicioBootstrap.ejecutarSQL("DELETE FROM etiquetas where id = " + etiqueta);
+                    for (Long etiqueta : etiquetasID) {
+                        ServicioBootstrap.ejecutarSQL("DELETE FROM articulosyetiquetas where articulo = " + req.params("id"));
+                        ServicioBootstrap.ejecutarSQL("DELETE FROM etiquetas where id = " + etiqueta);
+                    }
+
+                    ServicioArticulo.eliminarArticulo(Long.parseLong(req.params("id")));
                 }
-
-                ServicioArticulo.eliminarArticulo(Long.parseLong(req.params("id")));
                 res.redirect("/");
                 return null;
             });
