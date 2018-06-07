@@ -75,6 +75,29 @@ public class ServicioUsuario {
         return creadoCorrectamente;
     }
 
+    public static Usuario buscarUsuario(long id) {
+        Usuario usuario = null;
+        try
+        {
+            ServicioBaseDatos servicioBaseDatos = new ServicioBaseDatos();
+            Connection conexion = servicioBaseDatos.getConexion();
+
+            Statement statement = conexion.createStatement();
+            ResultSet rs = statement.executeQuery("select * from Usuarios where id = " + id + ";");
+            while (rs.next())
+            {
+                usuario = new Usuario(rs.getLong("id"), rs.getNString("username"), rs.getNString("password"), rs.getBoolean("administrator"), rs.getBoolean("autor"));
+            }
+            statement.close();
+            conexion.close();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return usuario;
+    }
+
     public static Usuario elUsuarioExiste(String nombreUsuario, String password)
     {
         try

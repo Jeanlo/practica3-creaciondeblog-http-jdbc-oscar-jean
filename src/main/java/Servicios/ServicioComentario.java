@@ -22,12 +22,12 @@ public class ServicioComentario {
 
             while(resultado.next()) {
                 comentarios.add(
-                        new Comentario(
-                            resultado.getLong("id"),
-                            resultado.getNString("comentario"),
-                        null,
-                        null
-                        )
+                    new Comentario(
+                        resultado.getLong("id"),
+                        resultado.getNString("comentario"),
+                        ServicioUsuario.buscarUsuario(resultado.getLong("autor")),
+                null
+                    )
                 );
             }
 
