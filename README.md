@@ -4,6 +4,10 @@
 
 Tercera práctica realizada para la asignatura **Programación Web (ISC-415)** perteneciente a la carrera **Ingeniería de Sistemas y Computación** de la **Pontificia Universidad Católica Madre y Maestra (PUCMM)** en el ciclo **Mayo-Agosto 2018**.
 
+**Realizado por:**
+**JEAN LOUIS TEJEDA GARCÍA**   MAT. 2013-1459
+**OSCAR DIONISIO NÚÑEZ SIRI**  MAT. 2014-0056
+
 ## Objetivo general
 
 Crear una aplicación web utilizando SparkJava que utilice persistencia en la base de datos gracias a JDBC y permita ejecutar las tareas especificadas en la sección [Tareas requeridas](#tareas-requeridas).
