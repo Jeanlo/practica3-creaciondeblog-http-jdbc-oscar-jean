@@ -2,6 +2,7 @@ import Modelos.Articulo;
 import Modelos.Etiqueta;
 import Modelos.Usuario;
 import Servicios.ServicioArticulo;
+import Servicios.ServicioComentario;
 import Servicios.ServicioUsuario;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -24,6 +25,7 @@ public class Enrutamiento {
     static ArrayList<Articulo> articulos = ServicioArticulo.listarArticulos();
     static String nombreUsuario = "";
     static Boolean etiquetasBool = false;
+    static Usuario usuario;
 
     public static void crearRutas(){
        final Configuration configuration = new Configuration(new Version(2, 3, 23));
@@ -75,7 +77,7 @@ public class Enrutamiento {
             try{
                 nombreUsuario = req.queryParams("username");
                 String contrasena = req.queryParams("password");
-                Usuario usuario = ServicioUsuario.elUsuarioExiste(nombreUsuario, contrasena);
+                usuario = ServicioUsuario.elUsuarioExiste(nombreUsuario, contrasena);
 
                 if(usuario != null)
                 {
@@ -232,6 +234,18 @@ public class Enrutamiento {
                 template.process(atributos, writer);
 
                 return writer;
+           });
+
+           post("/:id/comentar", (req, res) -> {
+               Long id = ServicioComentario.conseguirTamano() + 1;
+               Long articuloID = Long.parseLong(req.params("id"));
+               String comentario = req.queryParams("comentario");
+               Long autor = usuario.getId();
+
+               ServicioComentario.crearComentario(id, comentario, autor, articuloID);
+
+               res.redirect("/articulo/" +  articuloID);
+               return null;
            });
         });
 
