@@ -53,6 +53,8 @@
                         </#list>
                     </div>
                 </div>
+                <h5>Etiquetas: </h5>
+                <hr noshade="">
                 <p>
                     <#list articulo.listaEtiquetas as etiqueta>
                         ${etiqueta.etiqueta},
