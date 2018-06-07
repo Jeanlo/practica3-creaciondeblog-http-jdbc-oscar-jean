@@ -86,7 +86,7 @@ public class ServicioArticulo  {
         return articulo;
     }
 
-    public static boolean crearArticulo(long id, String titulo, String cuerpo, LocalDate fecha) {
+    public static boolean crearArticulo(long id, String titulo, String cuerpo, long usuarioID, LocalDate fecha) {
         boolean creadoCorrectamente = false;
         Connection conexion = ServicioBaseDatos.getInstancia().getConexion();
 
@@ -94,7 +94,7 @@ public class ServicioArticulo  {
             // Crealo si no existe y si existe actualizalo.
             String articuloNuevo = "MERGE INTO articulos \n" +
                     "KEY(ID) \n" +
-                    "VALUES (" + id + ",'" + titulo + "','" + cuerpo + "'," + 1 + ",'" + fecha + "');";
+                    "VALUES (" + id + ",'" + titulo + "','" + cuerpo + "'," + usuarioID + ",'" + fecha + "');";
 
             // Ejecuta el query pasado por parámetro "usuarioDefecto".
             PreparedStatement prepareStatement = conexion.prepareStatement(articuloNuevo);

@@ -129,11 +129,12 @@ public class Enrutamiento {
                 long id = ServicioArticulo.conseguirTamano() + 1;
                 String titulo = req.queryParams("titulo");
                 String cuerpo = req.queryParams("cuerpo");
+                long usuarioID = usuario.getId();
 
                 String string = req.queryParams("fecha");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDate fecha = LocalDate.parse(string, formatter);
-                ServicioArticulo.crearArticulo(id, titulo, cuerpo, fecha);
+                ServicioArticulo.crearArticulo(id, titulo, cuerpo, usuarioID, fecha);
 
                 /*
 
@@ -189,11 +190,12 @@ public class Enrutamiento {
                 long id = Integer.parseInt(req.params("id"));
                 String titulo = req.queryParams("titulo");
                 String cuerpo = req.queryParams("cuerpo");
+                long usuarioID = usuario.getId();
 
                 String string = req.queryParams("fecha");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDate fecha = LocalDate.parse(string, formatter);
-                ServicioArticulo.crearArticulo(id, titulo, cuerpo, fecha);
+                ServicioArticulo.crearArticulo(id, titulo, cuerpo, usuarioID, fecha);
 
                 res.redirect("/");
 
