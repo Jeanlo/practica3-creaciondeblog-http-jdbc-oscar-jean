@@ -21,7 +21,7 @@ public class ServicioEtiquetas {
             Te permite conseguir todas las etiquetas que hay registradas en la base de datos por medio del form.
     */
 
-    public static ArrayList<Etiqueta> conseguirEtiquetas()
+    public static ArrayList<Etiqueta> conseguirEtiquetas(Long idArticulo)
     {
         ArrayList<Etiqueta> etiquetas = new ArrayList<Etiqueta>();
         try
@@ -30,11 +30,15 @@ public class ServicioEtiquetas {
             Connection conexion = servicioBaseDatos.getConexion();
             Statement statement = conexion.createStatement();
 
-            ResultSet resultado = statement.executeQuery("select * from Etiquetas ORDER BY ID");
-            while (resultado.next())
-            {
-                etiquetas.add(new Etiqueta(resultado.getLong("id"), resultado.getString("etiqueta")));
+            for(Long id: conseguirIDEtiquetas(idArticulo)){
+                ResultSet resultado = statement.executeQuery("select * from etiquetas ORDER BY ID where id = " + id + ";");
+
+                while (resultado.next())
+                {
+                    etiquetas.add(new Etiqueta(resultado.getLong("id"), resultado.getString("etiqueta")));
+                }
             }
+
             statement.close();
             conexion.close();
         }
@@ -43,6 +47,31 @@ public class ServicioEtiquetas {
             e.printStackTrace();
     }
         return etiquetas;
+    }
+
+    public static ArrayList<Long> conseguirIDEtiquetas(Long idArticulo)
+    {
+        ArrayList<Long> IDetiquetas = new ArrayList<Long>();
+        try
+        {
+            ServicioBaseDatos servicioBaseDatos = new ServicioBaseDatos();
+            Connection conexion = servicioBaseDatos.getConexion();
+            Statement statement = conexion.createStatement();
+
+            ResultSet resultado = statement.executeQuery("select * from ARTICULOSYETIQUETAS where articulo = " + idArticulo+ ";");
+            while (resultado.next())
+            {
+                IDetiquetas.add(resultado.getLong("etiqueta"));
+            }
+            statement.close();
+            conexion.close();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return IDetiquetas;
     }
 
    /*

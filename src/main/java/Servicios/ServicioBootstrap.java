@@ -58,8 +58,8 @@ public class ServicioBootstrap {
         ejecutarSQL(
             "CREATE TABLE IF NOT EXISTS etiquetas\n" +
             "(\n" +
-            "id BIGINT PRIMARY KEY NOT NULL,\n" +
-            "etiqueta VARCHAR(100) NOT NULL,\n" +
+            "id BIGINT auto_increment PRIMARY KEY,\n" +
+            "etiqueta VARCHAR(100) NOT NULL\n" +
             ");");
 
         ejecutarSQL(
@@ -98,9 +98,9 @@ public class ServicioBootstrap {
                 "    id bigint auto_increment PRIMARY KEY,\n" +
                 "    articulo bigint,\n" +
                 "    etiqueta bigint,\n" +
-                "    FOREIGN KEY (articulo) REFERENCES Articulos(id),\n" +
-                "    FOREIGN KEY (etiqueta) REFERENCES Etiquetas(id)\n" +
-                "  )");
+                "    FOREIGN KEY (articulo) REFERENCES articulos(id),\n" +
+                "    FOREIGN KEY (etiqueta) REFERENCES etiquetas(id)\n" +
+                "  );");
 
     }
 }

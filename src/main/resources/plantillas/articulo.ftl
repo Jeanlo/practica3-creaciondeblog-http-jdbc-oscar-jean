@@ -53,8 +53,11 @@
                         </#list>
                     </div>
                 </div>
-
-                ETIQUETAS
+                <p>
+                    <#list articulo.listaEtiquetas as etiqueta>
+                        ${etiqueta.etiqueta},
+                    </#list>
+                </p>
             </div>
         </div>
     </div>

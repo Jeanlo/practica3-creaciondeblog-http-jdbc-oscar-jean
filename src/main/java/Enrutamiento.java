@@ -1,9 +1,7 @@
 import Modelos.Articulo;
 import Modelos.Etiqueta;
 import Modelos.Usuario;
-import Servicios.ServicioArticulo;
-import Servicios.ServicioComentario;
-import Servicios.ServicioUsuario;
+import Servicios.*;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
@@ -126,7 +124,7 @@ public class Enrutamiento {
            });
 
             post("/crear", (req, res) -> {
-                long id = ServicioArticulo.conseguirTamano() + 1;
+                long idArticulo = ServicioArticulo.conseguirTamano() + 1;
                 String titulo = req.queryParams("titulo");
                 String cuerpo = req.queryParams("cuerpo");
                 long usuarioID = usuario.getId();
@@ -134,38 +132,20 @@ public class Enrutamiento {
                 String string = req.queryParams("fecha");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDate fecha = LocalDate.parse(string, formatter);
-                ServicioArticulo.crearArticulo(id, titulo, cuerpo, usuarioID, fecha);
-
-                /*
+                ServicioArticulo.crearArticulo(idArticulo, titulo, cuerpo, usuarioID, fecha);
 
                 String[] etiquetas = req.queryParams("etiquetas").split(",");
-                 etiquetasAux = ServicioEtiquetas.conseguirEtiquetas();
+                //etiquetasAux = ServicioEtiquetas.conseguirEtiquetas(idArticulo);
 
-
-                long articuloID = ServicioEtiquetas.conseguirID("select * from articulos");
+                long articuloID = ServicioArticulo.buscarArticulo(idArticulo).getId();
 
                 for (int i = 0; i < etiquetas.length; i++)
                 {
-                    boolean encontrado = false;
-                    for (Etiqueta etiqueta: etiquetasAux)
-                    {
-                        if(etiqueta.getEtiqueta().equals(etiquetas[i]))
-                        {
-                            encontrado = true;
-                        }
-                    }
-                    if(!encontrado)
-                    {
-                        ServicioBootstrap.ejecutarSQL("insert into etiquetas (etiqueta) values ('" + etiquetas[i] + "')");
-                    }
-
-                    long etiquetaID = ServicioEtiquetas.conseguirID("select * from etiquetas where etiqueta ='" + etiquetas[i] + "'");
-                    ServicioBootstrap.ejecutarSQL("insert into articulosYetiquetas (articulo, etiqueta) values(" + articuloID +", " + etiquetaID +")");
+                    ServicioBootstrap.ejecutarSQL("insert into etiquetas (etiqueta) values ('" + etiquetas[i] + "');");
+                    long etiquetaID = ServicioEtiquetas.conseguirID("select * from etiquetas where etiqueta = '" + etiquetas[i] + "';");
+                    ServicioBootstrap.ejecutarSQL("insert into articulosYetiquetas (articulo, etiqueta) values(" + articuloID + ", " + etiquetaID +");");
                 }
 
-                etiquetasBool = true;
-
-                */
                 res.redirect("/");
 
                 return null;
@@ -218,6 +198,7 @@ public class Enrutamiento {
             });
 
             post("/eliminar/:id", (req, res) -> {
+                ServicioBootstrap.ejecutarSQL("DELETE FROM comentarios where articuloid = " + req.params("id"));
                 ServicioArticulo.eliminarArticulo(Long.parseLong(req.params("id")));
                 res.redirect("/");
                 return null;
