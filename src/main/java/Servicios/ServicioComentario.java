@@ -1,12 +1,50 @@
 package Servicios;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import Modelos.Comentario;
+
+import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class ServicioComentario {
+
+    public static ArrayList<Comentario> listarComentarios(long articuloID) {
+        Connection conexion = ServicioBaseDatos.getInstancia().getConexion();
+        ArrayList<Comentario> comentarios = new ArrayList<>();
+
+        try {
+            // Consultando todos los articulos.
+            String comentariosQuery = "SELECT * FROM comentarios WHERE articuloid = " + articuloID + ";";
+
+            // Ejecuta el query pasado por parámetro "usuarioDefecto".
+            Statement statement = conexion.createStatement();
+            ResultSet resultado = statement.executeQuery(comentariosQuery);
+
+            while(resultado.next()) {
+                comentarios.add(
+                        new Comentario(
+                            resultado.getLong("id"),
+                            resultado.getNString("comentario"),
+                        null,
+                        null
+                        )
+                );
+            }
+
+            statement.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally{
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return comentarios;
+    }
 
     public static boolean crearComentario(long id, String comentario, Long autor, Long articuloID) {
         boolean creadoCorrectamente = false;

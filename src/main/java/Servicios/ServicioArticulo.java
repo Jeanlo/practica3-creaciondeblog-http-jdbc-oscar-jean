@@ -9,6 +9,7 @@
 package Servicios;
 
 import Modelos.Articulo;
+import Modelos.Comentario;
 import Modelos.Usuario;
 
 import java.sql.*;
@@ -69,8 +70,10 @@ public class ServicioArticulo  {
             ResultSet rs = prepareStatement.executeQuery();
 
             while(rs.next()) {
+                ArrayList<Comentario> comentarios = ServicioComentario.listarComentarios(rs.getLong("id"));
+
                 // TODO Obtener los verdaderos datos del usuario
-                articulo = new Articulo(rs.getLong("id"), rs.getNString("titulo"), rs.getNString("cuerpo"), new Usuario(rs.getLong("usuarioid"), "admin", "1234", true, true), rs.getDate("fecha"), null, null);
+                articulo = new Articulo(rs.getLong("id"), rs.getNString("titulo"), rs.getNString("cuerpo"), new Usuario(rs.getLong("usuarioid"), "admin", "1234", true, true), rs.getDate("fecha"), comentarios, null);
             }
 
         } catch (SQLException ex) {

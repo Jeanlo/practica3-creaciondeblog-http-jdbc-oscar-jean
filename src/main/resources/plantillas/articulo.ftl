@@ -25,7 +25,11 @@
                     <strong class="upbottom-letters">COMENTARIO</strong>
                 </h5>
 
-                COMENTARIOS ETIQUETAS
+                <#list articulo.listaComentarios as comentario>
+                    ${comentario.comentario}
+                </#list>
+
+                ETIQUETAS
             </div>
         </div>
     </div>
