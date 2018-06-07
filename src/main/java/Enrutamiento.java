@@ -2,8 +2,6 @@ import Modelos.Articulo;
 import Modelos.Etiqueta;
 import Modelos.Usuario;
 import Servicios.ServicioArticulo;
-import Servicios.ServicioBootstrap;
-import Servicios.ServicioEtiquetas;
 import Servicios.ServicioUsuario;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -171,22 +169,18 @@ public class Enrutamiento {
             });
 
             get("/editar/:id", (req, res) -> {
-                for(Articulo articulo : articulos) {
-                    if(articulo.getId() == Integer.parseInt( req.params("id"))) {
-                        StringWriter writer = new StringWriter();
-                        Map<String, Object> atributos = new HashMap<>();
-                        Template template = configuration.getTemplate("plantillas/editar-articulo.ftl");
+                StringWriter writer = new StringWriter();
+                Map<String, Object> atributos = new HashMap<>();
+                Template template = configuration.getTemplate("plantillas/editar-articulo.ftl");
 
-                        atributos.put("articulo", articulo);
-                        atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
-                        atributos.put("nombreUsuario", nombreUsuario);
-                        template.process(atributos, writer);
+                Articulo articulo = ServicioArticulo.buscarArticulo(Long.parseLong(req.params("id")));
 
-                        return writer;
-                    }
-                }
+                atributos.put("articulo", articulo);
+                atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
+                atributos.put("nombreUsuario", nombreUsuario);
+                template.process(atributos, writer);
 
-                return null;
+                return writer;
             });
 
             post("/editar/:id", (req, res) -> {
@@ -205,27 +199,39 @@ public class Enrutamiento {
             });
 
             get("/eliminar/:id", (req, res) -> {
+                StringWriter writer = new StringWriter();
+                Map<String, Object> atributos = new HashMap<>();
+                Template template = configuration.getTemplate("plantillas/eliminar-articulo.ftl");
+
+                Articulo articulo = ServicioArticulo.buscarArticulo(Long.parseLong(req.params("id")));
+
+                atributos.put("articulo", articulo);
+                atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
+                atributos.put("nombreUsuario", nombreUsuario);
+                template.process(atributos, writer);
+
+                return writer;
+            });
+
+            post("/eliminar/:id", (req, res) -> {
                 ServicioArticulo.eliminarArticulo(Long.parseLong(req.params("id")));
                 res.redirect("/");
                 return null;
             });
+
            get("/:id", (req, res) -> {
-                for(Articulo articulo : articulos) {
-                    if(articulo.getId() == Integer.parseInt( req.params("id"))) {
-                        StringWriter writer = new StringWriter();
-                        Map<String, Object> atributos = new HashMap<>();
-                        Template template = configuration.getTemplate("plantillas/articulo.ftl");
+                StringWriter writer = new StringWriter();
+                Map<String, Object> atributos = new HashMap<>();
+                Template template = configuration.getTemplate("plantillas/articulo.ftl");
 
-                        atributos.put("articulo", articulo);
-                        atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
-                        atributos.put("nombreUsuario", nombreUsuario);
-                        template.process(atributos, writer);
+                Articulo articulo = ServicioArticulo.buscarArticulo(Long.parseLong(req.params("id")));
 
-                        return writer;
-                    }
-                }
+                atributos.put("articulo", articulo);
+                atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
+                atributos.put("nombreUsuario", nombreUsuario);
+                template.process(atributos, writer);
 
-                return null;
+                return writer;
            });
         });
 

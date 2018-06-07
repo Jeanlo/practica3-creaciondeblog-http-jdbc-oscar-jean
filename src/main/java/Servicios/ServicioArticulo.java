@@ -9,6 +9,7 @@
 package Servicios;
 
 import Modelos.Articulo;
+import Modelos.Usuario;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -53,6 +54,36 @@ public class ServicioArticulo  {
         }
 
         return articulos;
+    }
+
+    public static Articulo buscarArticulo(long id) {
+        Articulo articulo = null;
+        Connection conexion = ServicioBaseDatos.getInstancia().getConexion();
+
+        try {
+            // Crealo si no existe y si existe actualizalo.
+            String articuloEncontrado = "SELECT * FROM articulos WHERE id = " + id + ";";
+
+            // Ejecuta el query pasado por parámetro "usuarioDefecto".
+            PreparedStatement prepareStatement = conexion.prepareStatement(articuloEncontrado);
+            ResultSet rs = prepareStatement.executeQuery();
+
+            while(rs.next()) {
+                // TODO Obtener los verdaderos datos del usuario
+                articulo = new Articulo(rs.getLong("id"), rs.getNString("titulo"), rs.getNString("cuerpo"), new Usuario(rs.getLong("usuarioid"), "admin", "1234", true, true), rs.getDate("fecha"), null, null);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally{
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return articulo;
     }
 
     public static boolean crearArticulo(long id, String titulo, String cuerpo, LocalDate fecha) {
