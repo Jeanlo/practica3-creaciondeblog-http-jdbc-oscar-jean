@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
 public class ServicioBaseDatos {
     private static ServicioBaseDatos baseDatos;
-    private String URL = "jdbc:h2:~/manga-anime-empire";
+    private String URL = "jdbc:h2:tcp://localhost/~/manga-anime-empire";
 
     // Consigue una instancia de la base de datos en el caso de que no exista.
 

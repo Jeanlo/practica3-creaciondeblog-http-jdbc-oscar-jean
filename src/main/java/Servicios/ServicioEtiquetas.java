@@ -31,7 +31,7 @@ public class ServicioEtiquetas {
             Statement statement = conexion.createStatement();
 
             for(Long id: conseguirIDEtiquetas(idArticulo)){
-                ResultSet resultado = statement.executeQuery("select * from etiquetas ORDER BY ID where id = " + id + ";");
+                ResultSet resultado = statement.executeQuery("select * from etiquetas where id = " + id + ";");
 
                 while (resultado.next())
                 {

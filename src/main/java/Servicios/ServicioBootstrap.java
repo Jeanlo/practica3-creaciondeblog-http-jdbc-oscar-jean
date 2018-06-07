@@ -87,7 +87,7 @@ public class ServicioBootstrap {
                 "CREATE TABLE IF NOT EXISTS comentarios\n" +
                         "(\n" +
                         "id BIGINT PRIMARY KEY NOT NULL,\n" +
-                        "comentario VARCHAR(1000) UNIQUE NOT NULL, \n" +
+                        "comentario VARCHAR(1000) NOT NULL, \n" +
                         "autor VARCHAR(40) NOT NULL, \n" +
                         "articuloID BIGINT, \n" +
                         "FOREIGN KEY(articuloID) REFERENCES articulos(id)" +

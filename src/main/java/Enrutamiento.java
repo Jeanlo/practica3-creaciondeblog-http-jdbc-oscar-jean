@@ -138,10 +138,19 @@ public class Enrutamiento {
                 //etiquetasAux = ServicioEtiquetas.conseguirEtiquetas(idArticulo);
 
                 long articuloID = ServicioArticulo.buscarArticulo(idArticulo).getId();
+                long etiquetaIDAux;
 
                 for (int i = 0; i < etiquetas.length; i++)
                 {
-                    ServicioBootstrap.ejecutarSQL("insert into etiquetas (etiqueta) values ('" + etiquetas[i] + "');");
+                    if(ServicioEtiquetas.conseguirID("select * from etiquetas;") != -1) {
+                         etiquetaIDAux = ServicioEtiquetas.conseguirID("select * from etiquetas;") + 1;
+                    }
+                    else {
+                        etiquetaIDAux = 1;
+                    }
+                    ServicioBootstrap.ejecutarSQL("MERGE INTO etiquetas \n" +
+                            "KEY(ID) \n" +
+                            "VALUES (" + etiquetaIDAux + ", " + "'" + etiquetas[i] + "');");
                     long etiquetaID = ServicioEtiquetas.conseguirID("select * from etiquetas where etiqueta = '" + etiquetas[i] + "';");
                     ServicioBootstrap.ejecutarSQL("insert into articulosYetiquetas (articulo, etiqueta) values(" + articuloID + ", " + etiquetaID +");");
                 }
@@ -199,6 +208,13 @@ public class Enrutamiento {
 
             post("/eliminar/:id", (req, res) -> {
                 ServicioBootstrap.ejecutarSQL("DELETE FROM comentarios where articuloid = " + req.params("id"));
+                ArrayList<Long> etiquetasID = ServicioEtiquetas.conseguirIDEtiquetas(Long.parseLong(req.params("id")));
+
+                for(Long etiqueta: etiquetasID){
+                    ServicioBootstrap.ejecutarSQL("DELETE FROM articulosyetiquetas where articulo = " +  req.params("id"));
+                    ServicioBootstrap.ejecutarSQL("DELETE FROM etiquetas where id = " + etiqueta);
+                }
+
                 ServicioArticulo.eliminarArticulo(Long.parseLong(req.params("id")));
                 res.redirect("/");
                 return null;
