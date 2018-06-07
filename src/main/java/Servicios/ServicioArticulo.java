@@ -141,4 +141,31 @@ public class ServicioArticulo  {
             }
         }
     }
+
+    public static Long conseguirTamano() {
+        Long ultimoID = new Long(0);
+        Connection conexion = ServicioBaseDatos.getInstancia().getConexion();
+
+        try {
+            // Crealo si no existe y si existe actualizalo.
+            String conseguirTamanoTabla = "SELECT TOP 1 * FROM articulos ORDER BY ID DESC;";
+
+            // Ejecuta el query pasado por parámetro "usuarioDefecto".
+            PreparedStatement prepareStatement = conexion.prepareStatement(conseguirTamanoTabla);
+            ResultSet resultado = prepareStatement.executeQuery();
+            while(resultado.next()){
+                ultimoID = resultado.getLong("id");
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally{
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return ultimoID;
+    }
 }

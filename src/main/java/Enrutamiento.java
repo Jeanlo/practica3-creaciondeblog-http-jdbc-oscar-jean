@@ -124,7 +124,7 @@ public class Enrutamiento {
            });
 
             post("/crear", (req, res) -> {
-                long id = articulos.size() + 1;
+                long id = ServicioArticulo.conseguirTamano() + 1;
                 String titulo = req.queryParams("titulo");
                 String cuerpo = req.queryParams("cuerpo");
 
