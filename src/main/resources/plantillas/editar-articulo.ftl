@@ -9,9 +9,6 @@
                         <label for="titulo"><strong>Título</strong> </label>
                         <input type="text" class="form-control rounded-0" name="titulo" value="${articulo.titulo}" placeholder="título del artículo" required autofocus/>
                         <br>
-                        <label for="fecha"><strong>Fecha</strong></label>
-                        <input type="date" class="form-control rounded-0" name="fecha" value="${articulo.fecha}" required/>
-                        <br>
                         <label for="cuerpo"><strong>Cuerpo</strong></label><br>
                         <textarea name="cuerpo" class="form-control rounded-0">${articulo.cuerpo}</textarea>
                         <br>

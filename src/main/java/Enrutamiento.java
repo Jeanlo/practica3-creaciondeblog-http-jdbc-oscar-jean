@@ -207,10 +207,6 @@ public class Enrutamiento {
                    atributos.put("nombreUsuario", nombreUsuario);
                    atributos.put("tienePermisos", usuario.isAdminstrator() || usuario.isAutor());
                    atributos.put("esAdmin", usuario.isAdminstrator());
-//               DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//               LocalDate fecha = LocalDate.parse(new Date().toString(), formatter);
-//               Poniendo en On Hold el formateo de la fecha
-                   atributos.put("fechaActual", new Date().toString());
                    template.process(atributos, writer);
 
                    return writer;
@@ -226,13 +222,10 @@ public class Enrutamiento {
                     String cuerpo = req.queryParams("cuerpo");
                     long usuarioID = usuario.getId();
 
-                    String string = req.queryParams("fecha");
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                    LocalDate fecha = LocalDate.parse(string, formatter);
+                    LocalDate fecha = new java.sql.Date(new java.util.Date().getTime()).toLocalDate();
                     ServicioArticulo.crearArticulo(idArticulo, titulo, cuerpo, usuarioID, fecha);
 
                     String[] etiquetas = req.queryParams("etiquetas").split(",");
-                    //etiquetasAux = ServicioEtiquetas.conseguirEtiquetas(idArticulo);
 
                     long articuloID = ServicioArticulo.buscarArticulo(idArticulo).getId();
                     long etiquetaIDAux;
@@ -278,9 +271,7 @@ public class Enrutamiento {
                 String cuerpo = req.queryParams("cuerpo");
                 long usuarioID = usuario.getId();
 
-                String string = req.queryParams("fecha");
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                LocalDate fecha = LocalDate.parse(string, formatter);
+                LocalDate fecha = new java.sql.Date(new java.util.Date().getTime()).toLocalDate();
                 ServicioArticulo.crearArticulo(id, titulo, cuerpo, usuarioID, fecha);
 
                 String[] etiquetas = req.queryParams("etiquetas").split(",");
