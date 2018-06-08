@@ -194,8 +194,9 @@ public class Enrutamiento {
 
                 String[] etiquetas = req.queryParams("etiquetas").split(",");
 
-                long articuloID = ServicioArticulo.buscarArticulo(id).getId();
                 long etiquetaIDAux;
+
+                ServicioBootstrap.ejecutarSQL("DELETE FROM articulosyetiquetas WHERE articulo = " + id);
 
                 for (int i = 0; i < etiquetas.length; i++) {
                     if (ServicioEtiquetas.conseguirID("select * from etiquetas;") != -1) {
@@ -207,7 +208,7 @@ public class Enrutamiento {
                             "KEY(ID) \n" +
                             "VALUES (" + etiquetaIDAux + ", " + "'" + etiquetas[i] + "');");
                     long etiquetaID = ServicioEtiquetas.conseguirID("select * from etiquetas where etiqueta = '" + etiquetas[i] + "';");
-                    ServicioBootstrap.ejecutarSQL("insert into articulosYetiquetas (articulo, etiqueta) values(" + articuloID + ", " + etiquetaID + ");");
+                    ServicioBootstrap.ejecutarSQL("insert into articulosYetiquetas (articulo, etiqueta) values(" + id + ", " + etiquetaID + ");");
                 }
 
                 res.redirect("/");
