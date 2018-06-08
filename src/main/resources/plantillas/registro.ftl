@@ -14,6 +14,17 @@
                         <label for="password"><strong>Contraseña</strong></label>
                         <input type="password" class="form-control rounded-0" name="password" placeholder="contraseña"
                                required=""/>
+                        <br>
+                        <hr noshade>
+                        <input class="form-check-input" type="radio" name="seraAutor">
+                        <label class="form-check-label" for="seraAutor">
+                            <strong>Usuario autor</strong>
+                        </label>
+                        <br>
+                        <input class="form-check-input" type="radio" name="seraAdmin">
+                        <label class="form-check-label" for="seraAdmin">
+                            <strong>Usuario admin</strong>
+                        </label>
                     </div>
                     <button class="btn btn-outline-dark btn-block my-3" type="submit">
                         REGISTRAR

@@ -173,8 +173,20 @@ public class Enrutamiento {
             Long id = ServicioUsuario.conseguirTamano() + 1;
             Usuario usuarioNuevo = ServicioUsuario.elUsuarioExiste(nombreUsuario, contrasena);
             ServicioUsuario servicioUsuario = new ServicioUsuario();
+            boolean seraAutor = false;
+            boolean seraAdmin = false;
+
+            if(req.queryParams("seraAutor") != null) {
+                seraAutor = true;
+            }
+
+            if(req.queryParams("seraAdmin") != null) {
+                seraAdmin = true;
+                seraAutor = true;
+            }
+
             if(usuarioNuevo == null){
-                servicioUsuario.registrarUsuarios(id, "'" + nombreUsuario + "'", "'" + contrasena + "'", false, true );
+                servicioUsuario.registrarUsuarios(id, "'" + nombreUsuario + "'", "'" + contrasena + "'", seraAdmin, seraAutor );
                 res.redirect("/");
             }
             else{
