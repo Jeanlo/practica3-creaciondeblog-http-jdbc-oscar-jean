@@ -47,6 +47,42 @@ public class Enrutamiento {
            }
         });
 
+       before("/registrar", (req, res) -> {
+          if(!usuario.isAdminstrator()){
+              res.redirect("/");
+          }
+       });
+
+       before("/articulo/crear", (req, res) -> {
+          if(!usuario.isAdminstrator()){
+              if(!usuario.isAutor()){
+                  res.redirect("/");
+              }
+          }
+       });
+
+       before("/articulo/editar/:id", (req, res) ->{
+           if(!usuario.isAdminstrator()){
+               if(!usuario.isAutor()){
+                   res.redirect("/");
+               }
+           }
+       });
+
+        before("/articulo/eliminar/:id", (req, res) ->{
+            if(!usuario.isAdminstrator()){
+                if(!usuario.isAutor()){
+                    res.redirect("/");
+                }
+            }
+        });
+
+        before("articulo/:id", (req, res) -> {
+           if(req.session().attribute("sesionUsuario") == null){
+               res.redirect("/login");
+           }
+        });
+
         get("/", (req, res) -> {
             StringWriter writer = new StringWriter();
             Map<String, Object> atributos = new HashMap<>();
@@ -262,7 +298,7 @@ public class Enrutamiento {
                 return null;
             });
             get("/eliminar/:id", (req, res) -> {
-                if(usuario.isAdminstrator()) {
+                if(usuario.isAdminstrator() || usuario.isAutor()) {
                     StringWriter writer = new StringWriter();
                     Map<String, Object> atributos = new HashMap<>();
                     Template template = configuration.getTemplate("plantillas/eliminar-articulo.ftl");
@@ -283,7 +319,7 @@ public class Enrutamiento {
             });
 
             post("/eliminar/:id", (req, res) -> {
-                if(usuario.isAdminstrator()) {
+                if(usuario.isAdminstrator() || usuario.isAutor()) {
                     ServicioBootstrap.ejecutarSQL("DELETE FROM comentarios where articuloid = " + req.params("id"));
                     ArrayList<Long> etiquetasID = ServicioEtiquetas.conseguirIDEtiquetas(Long.parseLong(req.params("id")));
 
