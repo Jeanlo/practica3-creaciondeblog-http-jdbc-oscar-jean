@@ -14,6 +14,12 @@
                         <label for="password"><strong>Contraseña</strong></label>
                         <input type="password" class="form-control rounded-0" name="password" placeholder="contraseña"
                                required=""/>
+                        <br>
+                        <hr noshade>
+                        <input class="form-check-input" type="radio" name="guardarSesion">
+                        <label class="form-check-label" for="guardarSesion">
+                            <strong>Guardar sesión</strong>
+                        </label>
                     </div>
                     <button class="btn btn-outline-dark btn-block my-3" type="submit">
                         ACCEDER

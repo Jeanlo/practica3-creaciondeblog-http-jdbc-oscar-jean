@@ -32,8 +32,18 @@ public class Enrutamiento {
        staticFiles.location("/publico");
 
        before("/", (req, res) -> {
+           if (req.cookie("guardarSesion") != null){
+               nombreUsuario = usuario.getUsername();
+               String contrasena = usuario.getPassword();
+               usuario = ServicioUsuario.elUsuarioExiste(nombreUsuario, contrasena);
+               if(usuario != null) {
+                   req.session(true);
+                   req.session().attribute("sesionUsuario", usuario);
+               }
+           }
+
           if(req.session().attribute("sesionUsuario") == null){
-               res.redirect("/login");
+              res.redirect("/login");
            }
         });
 
@@ -82,6 +92,7 @@ public class Enrutamiento {
                 {
                     req.session(true);
                     req.session().attribute("sesionUsuario", usuario);
+                    res.cookie("/", "sesionSemanal", req.queryParams("guardarSesion"), 604800, true);
                     res.redirect("/");
                 } else {
                     res.redirect("/login");
