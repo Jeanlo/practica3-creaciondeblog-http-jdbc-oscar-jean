@@ -192,6 +192,24 @@ public class Enrutamiento {
                 LocalDate fecha = LocalDate.parse(string, formatter);
                 ServicioArticulo.crearArticulo(id, titulo, cuerpo, usuarioID, fecha);
 
+                String[] etiquetas = req.queryParams("etiquetas").split(",");
+
+                long articuloID = ServicioArticulo.buscarArticulo(id).getId();
+                long etiquetaIDAux;
+
+                for (int i = 0; i < etiquetas.length; i++) {
+                    if (ServicioEtiquetas.conseguirID("select * from etiquetas;") != -1) {
+                        etiquetaIDAux = ServicioEtiquetas.conseguirID("select * from etiquetas;") + 1;
+                    } else {
+                        etiquetaIDAux = 1;
+                    }
+                    ServicioBootstrap.ejecutarSQL("MERGE INTO etiquetas \n" +
+                            "KEY(ID) \n" +
+                            "VALUES (" + etiquetaIDAux + ", " + "'" + etiquetas[i] + "');");
+                    long etiquetaID = ServicioEtiquetas.conseguirID("select * from etiquetas where etiqueta = '" + etiquetas[i] + "';");
+                    ServicioBootstrap.ejecutarSQL("insert into articulosYetiquetas (articulo, etiqueta) values(" + articuloID + ", " + etiquetaID + ");");
+                }
+
                 res.redirect("/");
 
                 return null;

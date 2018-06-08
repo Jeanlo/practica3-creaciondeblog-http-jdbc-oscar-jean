@@ -6,11 +6,35 @@
             <div class="card-body">
                 <h5 class="card-title">
                     ${articulo.titulo}
-                    <strong class="text-danger m-0 float-right">
+                    <strong class="text-warning m-0 float-right">
                         <i class="fas fa-calendar-alt"></i> ${articulo.fecha}
+                        <#if tienePermisos>
+                            <a href="/articulo/editar/${articulo.id}" class="text-success ml-2">
+                                <i class="fas fa-edit"></i> Editar artículo
+                            </a>
+                            <a href="/articulo/eliminar/${articulo.id}" class="text-primary ml-2">
+                                <i class="fas fa-trash-alt"></i> Eliminar artículo
+                            </a>
+                        </#if>
                     </strong>
                 </h5>
                 <p class="card-text text-muted m-0">${articulo.cuerpo}</p>
+            </div>
+            <div class="col-12 mt-2 bg-white px-4 rounded-0 login">
+                <div class="row">
+                    <h5 class="col-12 pt-3">
+                        <strong>ETIQUETAS</strong>
+                        <hr noshade>
+                    </h5>
+                        <#if articulo.listaEtiquetas?size gt 0>
+                            <span class="text-primary pb-3 px-3">
+                                <i class="fas fa-hashtag"></i>
+                                <#list articulo.listaEtiquetas as etiqueta>
+                                    ${etiqueta.etiqueta}
+                                </#list>
+                            </span>
+                        </#if>
+                </div>
             </div>
             <div class="card-footer p-2">
                 <div class="col-12 mt-2 bg-light px-4 rounded-0 login">
@@ -53,14 +77,6 @@
                         </#list>
                     </div>
                 </div>
-                <h5>Etiquetas: </h5>
-                <hr noshade>
-                <p>
-                    <i class="fas fa-hashtag"></i>
-                    <#list articulo.listaEtiquetas as etiqueta>
-                        ${etiqueta.etiqueta}
-                    </#list>
-                </p>
             </div>
         </div>
     </div>

@@ -15,9 +15,9 @@
                         <label for="cuerpo"><strong>Cuerpo</strong></label><br>
                         <textarea name="cuerpo" class="form-control rounded-0">${articulo.cuerpo}</textarea>
                         <br>
-                        <label for="etiqueta"><strong>Etiquetas</strong></label>
-                        <input id= "etiquetas" type="text" class="form-control full-input" name="etiquetas" placeholder="etiqueta1,etiqueta2,etiqueta3...">
-                    </div>
+                        <label for="etiquetas"><strong>Etiquetas</strong></label>
+                        <textarea name="etiquetas" class="form-control rounded-0"><#list articulo.listaEtiquetas as etiqueta>${etiqueta.etiqueta},</#list></textarea>
+                       </div>
                     <button class="btn btn-outline-dark btn-block my-3" type="submit">
                         EDITAR ARTÍCULO
                     </button>
