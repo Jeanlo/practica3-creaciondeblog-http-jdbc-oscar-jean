@@ -12,7 +12,20 @@
                     </div>
                     <div class="card-footer p-2">
                         <strong class="text-danger m-0">
-                            <i class="fas fa-calendar-alt"></i> ${articulo.fecha}
+                            <span class="text-warning">
+                                <i class="fas fa-calendar-alt"></i> ${articulo.fecha}
+                            </span>
+                            <span class="text-success ml-5">
+                                <i class="fas fa-comments"></i> ${articulo.listaComentarios?size}
+                            </span>
+                            <#if articulo.listaEtiquetas?size gt 0>
+                                <span class="text-primary ml-5">
+                                    <i class="fas fa-hashtag"></i>
+                                    <#list articulo.listaEtiquetas as etiqueta>
+                                        ${etiqueta.etiqueta}
+                                    </#list>
+                                </span>
+                            </#if>
                         </strong>
                     </div>
                 </div>

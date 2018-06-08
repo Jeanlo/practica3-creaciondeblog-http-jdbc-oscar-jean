@@ -31,14 +31,17 @@ public class ServicioArticulo  {
             ResultSet resultado = statement.executeQuery(articulosQuery);
 
             while(resultado.next()) {
+                ArrayList<Comentario> comentarios = ServicioComentario.listarComentarios(resultado.getLong("id"));
+                ArrayList<Etiqueta> etiquetas = ServicioEtiquetas.conseguirEtiquetas(resultado.getLong("id"));
+
                 articulos.add(
                     new Articulo(resultado.getLong("id"),
                         resultado.getNString("titulo"),
                         resultado.getNString("cuerpo"),
-                        null,
+                        ServicioUsuario.buscarUsuario(resultado.getLong("usuarioid")),
                         resultado.getDate("fecha"),
-                        null,
-                        null
+                        comentarios,
+                        etiquetas
                     )
                 );
             }
@@ -75,7 +78,14 @@ public class ServicioArticulo  {
                 ArrayList<Etiqueta> etiquetas = ServicioEtiquetas.conseguirEtiquetas(rs.getLong("id"));
 
                 // TODO Obtener los verdaderos datos del usuario
-                articulo = new Articulo(rs.getLong("id"), rs.getNString("titulo"), rs.getNString("cuerpo"), new Usuario(rs.getLong("usuarioid"), "admin", "1234", true, true), rs.getDate("fecha"), comentarios, etiquetas);
+                articulo = new Articulo(
+                    rs.getLong("id"),
+                    rs.getNString("titulo"),
+                    rs.getNString("cuerpo"),
+                    ServicioUsuario.buscarUsuario(rs.getLong("usuarioid")),
+                    rs.getDate("fecha"),
+                    comentarios, etiquetas
+                );
             }
 
         } catch (SQLException ex) {

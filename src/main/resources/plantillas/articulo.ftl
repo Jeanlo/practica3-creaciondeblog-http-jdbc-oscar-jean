@@ -54,10 +54,11 @@
                     </div>
                 </div>
                 <h5>Etiquetas: </h5>
-                <hr noshade="">
+                <hr noshade>
                 <p>
+                    <i class="fas fa-hashtag"></i>
                     <#list articulo.listaEtiquetas as etiqueta>
-                        ${etiqueta.etiqueta},
+                        ${etiqueta.etiqueta}
                     </#list>
                 </p>
             </div>
