@@ -64,3 +64,16 @@ public class Articulo {
 
 ## Tareas requeridas
 
+- Modelar clases.
+- Permitir operaciones sobre artículos:
+  - Crear (si es autor o administrador).
+  - Eliminar (si es el autor o administrador).
+  - Ver.
+  - Listar.
+  - Modificar (si es el autor o es administrador).
+- Agregar etiquetas a los artículos.
+- Agregar comentarios a los artículos.
+- Registrar usuarios (si es administrador).
+- Generar usuario administrador, por defecto.
+- Validar sesión de usuario.
+- Mantener la sesión durante 1 semana, cifrada.
