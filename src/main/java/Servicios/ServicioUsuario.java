@@ -20,18 +20,21 @@ public class ServicioUsuario {
         Connection conexion = ServicioBaseDatos.getInstancia().getConexion();
 
         try {
-            // Crealo si no existe y si existe actualizalo.
-            String usuarioDefecto = "MERGE INTO usuarios \n" +
-                    "KEY(ID) \n" +
-                    "VALUES (1, 'admin', '1234', true, true, null);";
+            Usuario usu = buscarUsuario(1);
+            if(usu == null) {
+                // Crealo si no existe y si existe actualizalo.
+                String usuarioDefecto = "INSERT INTO usuarios \n" +
+                        "VALUES (1, 'admin', '1234', true, true, null);";
 
-            // Ejecuta el query pasado por parámetro "usuarioDefecto".
-            PreparedStatement prepareStatement = conexion.prepareStatement(usuarioDefecto);
+                // Ejecuta el query pasado por parámetro "usuarioDefecto".
+                PreparedStatement prepareStatement = conexion.prepareStatement(usuarioDefecto);
 
-            // Si se ejecutó el query bien pues la cantidad de filas de la tabla debe ser mayor a 0, pues se ha insertado una fila.
-            int fila = prepareStatement.executeUpdate();
-            creadoCorrectamente = fila > 0 ;
-
+                // Si se ejecutó el query bien pues la cantidad de filas de la tabla debe ser mayor a 0, pues se ha insertado una fila.
+                int fila = prepareStatement.executeUpdate();
+                creadoCorrectamente = fila > 0 ;
+            } else {
+                return true;
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally{
