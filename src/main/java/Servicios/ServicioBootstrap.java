@@ -69,7 +69,8 @@ public class ServicioBootstrap {
              "username VARCHAR(40) UNIQUE NOT NULL, \n" +
                     "password VARCHAR(40) NOT NULL, \n" +
                     "administrator BOOLEAN NOT NULL, \n" +
-                    "autor BOOLEAN NOT NULL" +
+                    "autor BOOLEAN NOT NULL, \n" +
+                    "sesion VARCHAR(1000)" +
             ");");
 
         ejecutarSQL(

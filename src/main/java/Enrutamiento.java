@@ -32,13 +32,18 @@ public class Enrutamiento {
        staticFiles.location("/publico");
 
        before("/", (req, res) -> {
-           if (req.cookie("guardarSesion") != null){
-               nombreUsuario = usuario.getUsername();
-               String contrasena = usuario.getPassword();
-               usuario = ServicioUsuario.elUsuarioExiste(nombreUsuario, contrasena);
-               if(usuario != null) {
+           System.out.println(req.cookies());
+
+           if (req.cookie("sesionSemanal") != null){
+                Usuario usuarioRestaurado = ServicioUsuario.restaurarSesion(req.cookie("sesionSemanal"));
+                nombreUsuario = usuarioRestaurado.getUsername();
+                usuario = usuarioRestaurado;
+                req.session().attribute("sesionUsuario", usuarioRestaurado);
+                System.out.println(usuarioRestaurado.getUsername());
+
+               if(usuarioRestaurado != null) {
                    req.session(true);
-                   req.session().attribute("sesionUsuario", usuario);
+                   req.session().attribute("sesionUsuario", usuarioRestaurado);
                }
            }
 
@@ -127,9 +132,14 @@ public class Enrutamiento {
 
                 if(usuario != null)
                 {
-                    req.session(true);
                     req.session().attribute("sesionUsuario", usuario);
-                    res.cookie("/", "sesionSemanal", req.queryParams("guardarSesion"), 604800, true);
+
+                    if(req.queryParams("guardarSesion") != null) {
+                        res.cookie("/","sesionSemanal", req.session().id(), 604800, false);
+                        boolean x = ServicioUsuario.guardarSesion(req.session().id(), usuario.getId());
+                        System.out.println(req.cookie("sesionSemanal"));
+                    }
+
                     res.redirect("/");
                 } else {
                     res.redirect("/login");

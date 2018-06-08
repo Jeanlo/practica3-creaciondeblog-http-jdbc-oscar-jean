@@ -23,7 +23,7 @@ public class ServicioUsuario {
             // Crealo si no existe y si existe actualizalo.
             String usuarioDefecto = "MERGE INTO usuarios \n" +
                     "KEY(ID) \n" +
-                    "VALUES (1, 'admin', '1234', true, true);";
+                    "VALUES (1, 'admin', '1234', true, true, null);";
 
             // Ejecuta el query pasado por parámetro "usuarioDefecto".
             PreparedStatement prepareStatement = conexion.prepareStatement(usuarioDefecto);
@@ -53,7 +53,7 @@ public class ServicioUsuario {
             // Crealo si no existe y si existe actualizalo.
             String usuarioNuevo = "MERGE INTO usuarios \n" +
                     "KEY(ID) \n" +
-                    "VALUES (" + id + "," + usuario + "," + password + "," + administador + "," + autor + ");";
+                    "VALUES (" + id + "," + usuario + "," + password + "," + administador + "," + autor + ", " + null + ");";
 
             // Ejecuta el query pasado por parámetro "usuarioDefecto".
             PreparedStatement prepareStatement = conexion.prepareStatement(usuarioNuevo);
@@ -96,6 +96,58 @@ public class ServicioUsuario {
             e.printStackTrace();
         }
         return usuario;
+    }
+
+    public static boolean guardarSesion(String sesion, long id) {
+        boolean creadoCorrectamente = false;
+        Connection conexion = ServicioBaseDatos.getInstancia().getConexion();
+
+        try {
+            // Crealo si no existe y si existe actualizalo.
+            String usuarioNuevo = "UPDATE usuarios \n" +
+                    "SET sesion='" + sesion + "' WHERE id=" + id + " ;";
+
+            // Ejecuta el query pasado por parámetro "usuarioDefecto".
+            PreparedStatement prepareStatement = conexion.prepareStatement(usuarioNuevo);
+
+            // Si se ejecutó el query bien pues la cantidad de filas de la tabla debe ser mayor a 0, pues se ha insertado una fila.
+            int fila = prepareStatement.executeUpdate();
+            creadoCorrectamente = fila > 0 ;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally{
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return creadoCorrectamente;
+    }
+
+    public static Usuario restaurarSesion(String sesion) {
+        try
+        {
+            ServicioBaseDatos servicioBaseDatos = new ServicioBaseDatos();
+            Connection conexion = servicioBaseDatos.getConexion();
+
+            Statement statement = conexion.createStatement();
+            ResultSet rs = statement.executeQuery("select * from Usuarios where sesion = '" + sesion +"';");
+            while (rs.next())
+            {
+                return new Usuario(rs.getLong("id"), rs.getNString("username"), rs.getNString("password"), rs.getBoolean("administrator"), rs.getBoolean("autor"));
+            }
+
+            statement.close();
+            conexion.close();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static Usuario elUsuarioExiste(String nombreUsuario, String password)
