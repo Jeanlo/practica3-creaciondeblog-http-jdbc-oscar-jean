@@ -45,7 +45,7 @@ public class ServicioUsuario {
         return creadoCorrectamente;
     }
 
-    public boolean registrarUsuarios(int id, String usuario, String password, boolean administador, boolean autor){
+    public boolean registrarUsuarios(Long id, String usuario, String password, boolean administador, boolean autor){
         boolean creadoCorrectamente = false;
         Connection conexion = ServicioBaseDatos.getInstancia().getConexion();
 
@@ -119,5 +119,32 @@ public class ServicioUsuario {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static Long conseguirTamano() {
+        Long ultimoID = new Long(0);
+        Connection conexion = ServicioBaseDatos.getInstancia().getConexion();
+
+        try {
+            // Crealo si no existe y si existe actualizalo.
+            String conseguirTamanoTabla = "SELECT TOP 1 * FROM usuarios ORDER BY ID DESC;";
+
+            // Ejecuta el query.
+            PreparedStatement prepareStatement = conexion.prepareStatement(conseguirTamanoTabla);
+            ResultSet resultado = prepareStatement.executeQuery();
+            while(resultado.next()){
+                ultimoID = resultado.getLong("id");
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally{
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return ultimoID;
     }
 }

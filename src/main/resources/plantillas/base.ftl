@@ -1,4 +1,4 @@
-<#macro pagina logueado=false usuario="" fondo="fondo.png" permisos=false>
+<#macro pagina logueado=false usuario="" fondo="fondo.png" permisos=false admin=false>
 <!doctype html>
 <html lang="es">
 <head>
@@ -33,20 +33,27 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <#if logueado>
-                            <ul class="navbar-nav mr-auto">
-                                <#if permisos>
-                                    <li class="nav-item">
-                                        <a class="btn btn-link text-dark" href="/articulo/crear">
-                                            <i class="fas fa-newspaper"></i> Crear artículo
-                                        </a>
-                                    </li>
-                                </#if>
-                            </ul>
-                            <img class="rounded-circle boxed-shadow" src="/imagenes/perfil.jpg" alt="foto de usuario" width="64px">
-                            <a class="mx-2 nombre-usuario px-1"><strong>${usuario}</strong></a>
-                            <a class="btn btn-dark mr-2" href="/salir">
-                                <i class="fas fa-sign-out-alt"></i> Salir
-                            </a>
+                                <ul class="navbar-nav mr-auto">
+                                    <#if permisos>
+                                        <li class="nav-item">
+                                            <a class="btn btn-link text-dark" href="/articulo/crear">
+                                                <i class="fas fa-newspaper"></i> Crear artículo
+                                            </a>
+                                        </li>
+                                    </#if>
+                                    <#if admin>
+                                        <li class="nav-item">
+                                            <a class="btn btn-link text-dark" href="/registrar">
+                                                <i class="fas fa-user-plus"></i> Registrar usuario
+                                            </a>
+                                        </li>
+                                    </#if>
+                                </ul>
+                                <img class="rounded-circle boxed-shadow" src="/imagenes/perfil.jpg" alt="foto de usuario" width="64px">
+                                <a class="mx-2 nombre-usuario px-1"><strong>${usuario}</strong></a>
+                                <a class="btn btn-dark mr-2" href="/salir">
+                                    <i class="fas fa-sign-out-alt"></i> Salir
+                                </a>
                             </#if>
                         </div>
                     </nav>
