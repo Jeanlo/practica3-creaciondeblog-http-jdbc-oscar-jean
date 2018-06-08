@@ -1,5 +1,5 @@
 <#import "/plantillas/base.ftl" as base>
-<@base.pagina logueado=estaLogueado usuario=nombreUsuario fondo="404-fondo.png">
+<@base.pagina logueado=estaLogueado usuario=nombreUsuario fondo="404-fondo.png" permisos=tienePermisos>
 <div class="col-12 no-encontrado py-5 px-1">
     <h5 class="upbottom-letters text-white text-shadow float-right">
         NO SE ENCONTRO

@@ -50,6 +50,7 @@ public class Enrutamiento {
             atributos.put("articulos", articulos);
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
             atributos.put("nombreUsuario", nombreUsuario);
+            atributos.put("tienePermisos", usuario.isAdminstrator() || usuario.isAutor());
             /*
             atributos.put("etiquetasBool", etiquetasBool);
 
@@ -115,6 +116,7 @@ public class Enrutamiento {
 
                    atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
                    atributos.put("nombreUsuario", nombreUsuario);
+                   atributos.put("tienePermisos", usuario.isAdminstrator() || usuario.isAutor());
 //               DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 //               LocalDate fecha = LocalDate.parse(new Date().toString(), formatter);
 //               Poniendo en On Hold el formateo de la fecha
@@ -173,6 +175,7 @@ public class Enrutamiento {
                 atributos.put("articulo", articulo);
                 atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
                 atributos.put("nombreUsuario", nombreUsuario);
+                atributos.put("tienePermisos", usuario.isAdminstrator() || usuario.isAutor());
                 template.process(atributos, writer);
 
                 return writer;
@@ -204,6 +207,7 @@ public class Enrutamiento {
                     atributos.put("articulo", articulo);
                     atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
                     atributos.put("nombreUsuario", nombreUsuario);
+                    atributos.put("tienePermisos", usuario.isAdminstrator() || usuario.isAutor());
                     template.process(atributos, writer);
 
                     return writer;
@@ -238,6 +242,7 @@ public class Enrutamiento {
                 atributos.put("articulo", articulo);
                 atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
                 atributos.put("nombreUsuario", nombreUsuario);
+                atributos.put("tienePermisos", usuario.isAdminstrator() || usuario.isAutor());
                 template.process(atributos, writer);
 
                 return writer;
@@ -262,6 +267,7 @@ public class Enrutamiento {
             Map<String, Object> atributos = new HashMap<>();
             atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
             atributos.put("nombreUsuario", nombreUsuario);
+            atributos.put("tienePermisos", usuario.isAdminstrator() || usuario.isAutor());
             template.process(atributos, writer);
             res.status(404);
             res.body(writer.toString());

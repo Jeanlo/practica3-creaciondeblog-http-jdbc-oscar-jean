@@ -1,4 +1,4 @@
-<#macro pagina logueado=false usuario="" fondo="fondo.png">
+<#macro pagina logueado=false usuario="" fondo="fondo.png" permisos=false>
 <!doctype html>
 <html lang="es">
 <head>
@@ -34,15 +34,13 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <#if logueado>
                             <ul class="navbar-nav mr-auto">
-                                <li class="nav-item">
-                                    <a class="btn btn-link text-dark" href="/articulo/crear">
-                                        <i class="fas fa-newspaper"></i> Crear artículo
-                                    </a>
-                                </li>
-                                <li class="nav-item ml-2 container-buscar py-2 px-3 boxed-shadow">
-                                    <i class="fas fa-hashtag"></i>
-                                    <input type="text" name="buscar" placeholder="buscar por etiqueta">
-                                </li>
+                                <#if permisos>
+                                    <li class="nav-item">
+                                        <a class="btn btn-link text-dark" href="/articulo/crear">
+                                            <i class="fas fa-newspaper"></i> Crear artículo
+                                        </a>
+                                    </li>
+                                </#if>
                             </ul>
                             <img class="rounded-circle boxed-shadow" src="/imagenes/perfil.jpg" alt="foto de usuario" width="64px">
                             <a class="mx-2 nombre-usuario px-1"><strong>${usuario}</strong></a>

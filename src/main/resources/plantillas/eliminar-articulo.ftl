@@ -1,5 +1,5 @@
 <#import "/plantillas/base.ftl" as base>
-<@base.pagina logueado=estaLogueado usuario=nombreUsuario>
+<@base.pagina logueado=estaLogueado usuario=nombreUsuario permisos=tienePermisos>
 <div class="col-lg-8 col-md-10 col-sm-12 mx-auto">
     <div class="row">
         <div class="col-12 mt-2 bg-light px-4 rounded-0 login">
