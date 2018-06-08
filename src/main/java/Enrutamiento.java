@@ -32,14 +32,11 @@ public class Enrutamiento {
        staticFiles.location("/publico");
 
        before("/", (req, res) -> {
-           System.out.println(req.cookies());
-
            if (req.cookie("sesionSemanal") != null){
                 Usuario usuarioRestaurado = ServicioUsuario.restaurarSesion(req.cookie("sesionSemanal"));
                 nombreUsuario = usuarioRestaurado.getUsername();
                 usuario = usuarioRestaurado;
                 req.session().attribute("sesionUsuario", usuarioRestaurado);
-                System.out.println(usuarioRestaurado.getUsername());
 
                if(usuarioRestaurado != null) {
                    req.session(true);
@@ -191,6 +188,8 @@ public class Enrutamiento {
         {
             Session sesion = req.session(true);
             sesion.invalidate();
+
+            res.removeCookie("sesionSemanal");
 
             res.redirect("/");
 
