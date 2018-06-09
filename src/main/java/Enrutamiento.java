@@ -133,8 +133,7 @@ public class Enrutamiento {
 
                     if(req.queryParams("guardarSesion") != null) {
                         res.cookie("/","sesionSemanal", req.session().id(), 604800, false);
-                        boolean x = ServicioUsuario.guardarSesion(req.session().id(), usuario.getId());
-                        System.out.println(req.cookie("sesionSemanal"));
+                        ServicioUsuario.guardarSesion(req.session().id(), usuario.getId());
                     }
 
                     res.redirect("/");
