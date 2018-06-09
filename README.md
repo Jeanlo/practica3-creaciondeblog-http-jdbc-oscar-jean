@@ -21,10 +21,10 @@ Crear una aplicación web utilizando SparkJava que utilice persistencia en la ba
 - SparkJava
 - FreeMarker
 - JDBC
+- Bootstrap 4
 
 ## Otras tecnologías utilizadas
 
-- Bootstrap 4
 - Font Awesome 5
 - H2
 
@@ -65,11 +65,12 @@ public class Articulo {
 ## Tareas requeridas
 
 - Modelar clases.
+- Autentificar usuarios.
 - Permitir operaciones sobre artículos:
   - Crear (si es autor o administrador).
   - Eliminar (si es el autor o administrador).
-  - Ver.
-  - Listar.
+  - Ver (si está autentificado).
+  - Listar (si está autentificado).
   - Modificar (si es el autor o es administrador).
 - Agregar etiquetas a los artículos.
 - Agregar comentarios a los artículos.
