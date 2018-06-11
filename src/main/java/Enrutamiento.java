@@ -50,30 +50,43 @@ public class Enrutamiento {
         });
 
        before("/registrar", (req, res) -> {
-          if(!usuario.isAdminstrator()){
-              res.redirect("/");
-          }
+           if(req.session().attribute("sesionUsuario") == null) {
+               if (!usuario.isAdminstrator()) {
+                   res.redirect("/");
+               }
+           }
        });
 
        before("/articulo/crear", (req, res) -> {
-          if(!usuario.isAdminstrator()){
-              if(!usuario.isAutor()){
+           if(req.session().attribute("sesionUsuario") == null){
+               res.redirect("/");
+           }
+
+          if (!usuario.isAdminstrator()) {
+              if (!usuario.isAutor()) {
                   res.redirect("/");
               }
           }
        });
 
-       before("/articulo/editar/:id", (req, res) ->{
-           if(!usuario.isAdminstrator()){
-               if(!usuario.isAutor()){
+       before("/articulo/editar/:id", (req, res) -> {
+           if(req.session().attribute("sesionUsuario") == null){
+               res.redirect("/");
+           }
+           if (!usuario.isAdminstrator()) {
+               if (!usuario.isAutor()) {
                    res.redirect("/");
                }
            }
        });
 
         before("/articulo/eliminar/:id", (req, res) ->{
-            if(!usuario.isAdminstrator()){
-                if(!usuario.isAutor()){
+            if(req.session().attribute("sesionUsuario") == null){
+                res.redirect("/");
+            }
+
+            if (!usuario.isAdminstrator()) {
+                if (!usuario.isAutor()) {
                     res.redirect("/");
                 }
             }
