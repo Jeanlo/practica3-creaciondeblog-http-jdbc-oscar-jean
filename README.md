@@ -14,6 +14,10 @@ Tercera práctica realizada para la asignatura **Programación Web (ISC-415)** p
 
 Crear una aplicación web utilizando SparkJava que utilice persistencia en la base de datos gracias a JDBC y permita ejecutar las tareas especificadas en la sección [Tareas requeridas](#tareas-requeridas).
 
+## Vídeo de demostración del proyecto
+
+https://youtu.be/L-UvkVRljwc
+
 ## Tecnologías requeridas
 
 - Java SE
