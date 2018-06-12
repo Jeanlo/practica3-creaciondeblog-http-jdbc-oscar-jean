@@ -51,9 +51,10 @@ public class Enrutamiento {
 
        before("/registrar", (req, res) -> {
            if(req.session().attribute("sesionUsuario") == null) {
-               if (!usuario.isAdminstrator()) {
-                   res.redirect("/");
-               }
+               res.redirect("/");
+           }
+           if (!usuario.isAdminstrator()) {
+               res.redirect("/");
            }
        });
 
@@ -161,7 +162,6 @@ public class Enrutamiento {
         });
 
         get("/registrar", (req, res) -> {
-            if(usuario.isAdminstrator()){
                 StringWriter writer = new StringWriter();
                 Map<String, Object> atributos = new HashMap<>();
                 Template template = configuration.getTemplate("plantillas/registro.ftl");
@@ -174,9 +174,6 @@ public class Enrutamiento {
                 template.process(atributos, writer);
 
                 return writer;
-            }
-
-            return null;
         });
 
         post("/registrarUsuario", (req, res) -> {
