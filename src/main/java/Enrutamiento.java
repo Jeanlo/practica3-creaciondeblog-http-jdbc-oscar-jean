@@ -5,6 +5,8 @@ import Servicios.*;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
+import org.jasypt.util.password.BasicPasswordEncryptor;
+import org.jasypt.util.text.StrongTextEncryptor;
 import spark.Session;
 
 import java.io.StringWriter;
@@ -25,64 +27,68 @@ public class Enrutamiento {
     static Boolean etiquetasBool = false;
     static Usuario usuario;
 
-    public static void crearRutas(){
-       final Configuration configuration = new Configuration(new Version(2, 3, 23));
-       configuration.setClassForTemplateLoading(Main.class, "/");
+    public static void crearRutas() {
+        final Configuration configuration = new Configuration(new Version(2, 3, 23));
+        configuration.setClassForTemplateLoading(Main.class, "/");
 
-       staticFiles.location("/publico");
+        staticFiles.location("/publico");
 
-       before("/", (req, res) -> {
-           if (req.cookie("sesionSemanal") != null){
-                Usuario usuarioRestaurado = ServicioUsuario.restaurarSesion(req.cookie("sesionSemanal"));
+        before("/", (req, res) -> {
+            if (req.cookie("sesionSemanal") != null) {
+                StrongTextEncryptor encriptador = new StrongTextEncryptor();
+                encriptador.setPassword("manga-anime-empire");
+                String sesionSemanal = encriptador.decrypt(req.cookie("sesionSemanal"));
+
+                Usuario usuarioRestaurado = ServicioUsuario.restaurarSesion(sesionSemanal);
                 nombreUsuario = usuarioRestaurado.getUsername();
                 usuario = usuarioRestaurado;
                 req.session().attribute("sesionUsuario", usuarioRestaurado);
 
-               if(usuarioRestaurado != null) {
-                   req.session(true);
-                   req.session().attribute("sesionUsuario", usuarioRestaurado);
-               }
-           }
+                if (usuarioRestaurado != null) {
+                    req.session(true);
+                    req.session().attribute("sesionUsuario", usuarioRestaurado);
+                }
+            }
 
-          if(req.session().attribute("sesionUsuario") == null){
-              res.redirect("/login");
-           }
+            if (req.session().attribute("sesionUsuario") == null) {
+                res.redirect("/login");
+            }
         });
 
-       before("/registrar", (req, res) -> {
-           if(req.session().attribute("sesionUsuario") == null) {
-               res.redirect("/");
-           }
-           if (!usuario.isAdminstrator()) {
-               res.redirect("/");
-           }
-       });
+        before("/registrar", (req, res) -> {
+            if (req.session().attribute("sesionUsuario") == null) {
+                res.redirect("/");
+            }
+            if (!usuario.isAdminstrator()) {
+                res.redirect("/");
+            }
+        });
 
-       before("/articulo/crear", (req, res) -> {
-           if(req.session().attribute("sesionUsuario") == null){
-               res.redirect("/");
-           }
+        before("/articulo/crear", (req, res) -> {
+            if (req.session().attribute("sesionUsuario") == null) {
+                res.redirect("/");
+            }
 
-          if (!usuario.isAdminstrator()) {
-              if (!usuario.isAutor()) {
-                  res.redirect("/");
-              }
-          }
-       });
+            if (!usuario.isAdminstrator()) {
+                if (!usuario.isAutor()) {
+                    res.redirect("/");
+                }
+            }
+        });
 
-       before("/articulo/editar/:id", (req, res) -> {
-           if(req.session().attribute("sesionUsuario") == null){
-               res.redirect("/");
-           }
-           if (!usuario.isAdminstrator()) {
-               if (!usuario.isAutor()) {
-                   res.redirect("/");
-               }
-           }
-       });
+        before("/articulo/editar/:id", (req, res) -> {
+            if (req.session().attribute("sesionUsuario") == null) {
+                res.redirect("/");
+            }
+            if (!usuario.isAdminstrator()) {
+                if (!usuario.isAutor()) {
+                    res.redirect("/");
+                }
+            }
+        });
 
-        before("/articulo/eliminar/:id", (req, res) ->{
-            if(req.session().attribute("sesionUsuario") == null){
+        before("/articulo/eliminar/:id", (req, res) -> {
+            if (req.session().attribute("sesionUsuario") == null) {
                 res.redirect("/");
             }
 
@@ -94,9 +100,9 @@ public class Enrutamiento {
         });
 
         before("articulo/:id", (req, res) -> {
-           if(req.session().attribute("sesionUsuario") == null){
-               res.redirect("/login");
-           }
+            if (req.session().attribute("sesionUsuario") == null) {
+                res.redirect("/login");
+            }
         });
 
         get("/", (req, res) -> {
@@ -136,17 +142,24 @@ public class Enrutamiento {
         });
 
         post("/login", (req, res) -> {
-            try{
+            try {
                 nombreUsuario = req.queryParams("username");
                 String contrasena = req.queryParams("password");
                 usuario = ServicioUsuario.elUsuarioExiste(nombreUsuario, contrasena);
 
-                if(usuario != null)
-                {
+                if (usuario != null) {
                     req.session().attribute("sesionUsuario", usuario);
 
-                    if(req.queryParams("guardarSesion") != null) {
-                        res.cookie("/","sesionSemanal", req.session().id(), 604800, false);
+                    if (req.queryParams("guardarSesion") != null) {
+                        String sesionID = req.session().id();
+                        StrongTextEncryptor encriptador = new StrongTextEncryptor();
+                        encriptador.setPassword("manga-anime-empire");
+                        String sesionIDEncriptado = encriptador.encrypt(sesionID);
+
+                        System.out.println("Sesión sin encriptar: " + sesionID);
+                        System.out.println("Sesión encriptada: " + sesionIDEncriptado);
+
+                        res.cookie("/", "sesionSemanal", sesionIDEncriptado, 604800, false);
                         ServicioUsuario.guardarSesion(req.session().id(), usuario.getId());
                     }
 
@@ -154,7 +167,7 @@ public class Enrutamiento {
                 } else {
                     res.redirect("/login");
                 }
-            } catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -162,18 +175,18 @@ public class Enrutamiento {
         });
 
         get("/registrar", (req, res) -> {
-                StringWriter writer = new StringWriter();
-                Map<String, Object> atributos = new HashMap<>();
-                Template template = configuration.getTemplate("plantillas/registro.ftl");
+            StringWriter writer = new StringWriter();
+            Map<String, Object> atributos = new HashMap<>();
+            Template template = configuration.getTemplate("plantillas/registro.ftl");
 
-                atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
-                atributos.put("nombreUsuario", nombreUsuario);
-                atributos.put("tienePermisos", usuario.isAdminstrator() || usuario.isAutor());
-                atributos.put("esAdmin", usuario.isAdminstrator());
+            atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
+            atributos.put("nombreUsuario", nombreUsuario);
+            atributos.put("tienePermisos", usuario.isAdminstrator() || usuario.isAutor());
+            atributos.put("esAdmin", usuario.isAdminstrator());
 
-                template.process(atributos, writer);
+            template.process(atributos, writer);
 
-                return writer;
+            return writer;
         });
 
         post("/registrarUsuario", (req, res) -> {
@@ -185,20 +198,19 @@ public class Enrutamiento {
             boolean seraAutor = false;
             boolean seraAdmin = false;
 
-            if(req.queryParams("seraAutor") != null) {
+            if (req.queryParams("seraAutor") != null) {
                 seraAutor = true;
             }
 
-            if(req.queryParams("seraAdmin") != null) {
+            if (req.queryParams("seraAdmin") != null) {
                 seraAdmin = true;
                 seraAutor = true;
             }
 
-            if(usuarioNuevo == null){
-                servicioUsuario.registrarUsuarios(id, "'" + nombreUsuario + "'", "'" + contrasena + "'", seraAdmin, seraAutor );
+            if (usuarioNuevo == null) {
+                servicioUsuario.registrarUsuarios(id, "'" + nombreUsuario + "'", "'" + contrasena + "'", seraAdmin, seraAutor);
                 res.redirect("/");
-            }
-            else{
+            } else {
                 res.redirect("/registrar");
             }
 
@@ -218,26 +230,26 @@ public class Enrutamiento {
         });
 
         path("/articulo", () -> {
-           get("/crear", (req, res) -> {
-               if(usuario.isAutor()) {
-                   StringWriter writer = new StringWriter();
-                   Map<String, Object> atributos = new HashMap<>();
-                   Template template = configuration.getTemplate("plantillas/crear-articulo.ftl");
+            get("/crear", (req, res) -> {
+                if (usuario.isAutor()) {
+                    StringWriter writer = new StringWriter();
+                    Map<String, Object> atributos = new HashMap<>();
+                    Template template = configuration.getTemplate("plantillas/crear-articulo.ftl");
 
-                   atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
-                   atributos.put("nombreUsuario", nombreUsuario);
-                   atributos.put("tienePermisos", usuario.isAdminstrator() || usuario.isAutor());
-                   atributos.put("esAdmin", usuario.isAdminstrator());
-                   template.process(atributos, writer);
+                    atributos.put("estaLogueado", req.session().attribute("sesionUsuario") != null);
+                    atributos.put("nombreUsuario", nombreUsuario);
+                    atributos.put("tienePermisos", usuario.isAdminstrator() || usuario.isAutor());
+                    atributos.put("esAdmin", usuario.isAdminstrator());
+                    template.process(atributos, writer);
 
-                   return writer;
-               }
-               res.redirect("/");
-               return null;
-           });
+                    return writer;
+                }
+                res.redirect("/");
+                return null;
+            });
 
             post("/crear", (req, res) -> {
-                if(usuario.isAutor()) {
+                if (usuario.isAutor()) {
                     long idArticulo = ServicioArticulo.conseguirTamano() + 1;
                     String titulo = req.queryParams("titulo");
                     String cuerpo = req.queryParams("cuerpo");
@@ -319,7 +331,7 @@ public class Enrutamiento {
                 return null;
             });
             get("/eliminar/:id", (req, res) -> {
-                if(usuario.isAdminstrator() || usuario.isAutor()) {
+                if (usuario.isAdminstrator() || usuario.isAutor()) {
                     StringWriter writer = new StringWriter();
                     Map<String, Object> atributos = new HashMap<>();
                     Template template = configuration.getTemplate("plantillas/eliminar-articulo.ftl");
@@ -340,7 +352,7 @@ public class Enrutamiento {
             });
 
             post("/eliminar/:id", (req, res) -> {
-                if(usuario.isAdminstrator() || usuario.isAutor()) {
+                if (usuario.isAdminstrator() || usuario.isAutor()) {
                     ServicioBootstrap.ejecutarSQL("DELETE FROM comentarios where articuloid = " + req.params("id"));
                     ArrayList<Long> etiquetasID = ServicioEtiquetas.conseguirIDEtiquetas(Long.parseLong(req.params("id")));
 
@@ -355,7 +367,7 @@ public class Enrutamiento {
                 return null;
             });
 
-           get("/:id", (req, res) -> {
+            get("/:id", (req, res) -> {
                 StringWriter writer = new StringWriter();
                 Map<String, Object> atributos = new HashMap<>();
                 Template template = configuration.getTemplate("plantillas/articulo.ftl");
@@ -370,19 +382,19 @@ public class Enrutamiento {
                 template.process(atributos, writer);
 
                 return writer;
-           });
+            });
 
-           post("/:id/comentar", (req, res) -> {
-               Long id = ServicioComentario.conseguirTamano() + 1;
-               Long articuloID = Long.parseLong(req.params("id"));
-               String comentario = req.queryParams("comentario");
-               Long autor = usuario.getId();
+            post("/:id/comentar", (req, res) -> {
+                Long id = ServicioComentario.conseguirTamano() + 1;
+                Long articuloID = Long.parseLong(req.params("id"));
+                String comentario = req.queryParams("comentario");
+                Long autor = usuario.getId();
 
-               ServicioComentario.crearComentario(id, comentario, autor, articuloID);
+                ServicioComentario.crearComentario(id, comentario, autor, articuloID);
 
-               res.redirect("/articulo/" +  articuloID);
-               return null;
-           });
+                res.redirect("/articulo/" + articuloID);
+                return null;
+            });
         });
 
         notFound((req, res) -> {
