@@ -33,7 +33,7 @@ https://youtu.be/L-UvkVRljwc
 - H2
 
 ## Modelo de datos
-Para esta aplicación es requerido utilizar una colección estática de Estudiantes, para lo cual es necesaria la construcción de la clase Estudiante como parte del modelo de datos, y aquí se muestra su estructura:
+Para esta aplicación es requerido utilizar una colección estática de diferentes objetos, para lo cual es necesaria la construcción de las diferentes clases que formarán parte del modelo de datos, y aquí se muestra su estructura:
 ```java
 public class Etiqueta { 
   private long id;
