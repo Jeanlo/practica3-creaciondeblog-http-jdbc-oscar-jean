@@ -5,15 +5,12 @@ import Servicios.*;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
-import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.jasypt.util.text.StrongTextEncryptor;
 import spark.Session;
 
 import java.io.StringWriter;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
